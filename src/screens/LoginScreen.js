@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import MyHeader from '../components/MyHeader';
 import { Text, Input, Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
+import MyHeader from '../components/MyHeader';
 import Globals from '../constants/Globals';
 
 export default class LoginScreen extends Component {
@@ -10,7 +10,7 @@ export default class LoginScreen extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.container}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Chores</Text>
                 </View>
@@ -25,10 +25,15 @@ export default class LoginScreen extends Component {
                     />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button title="Login" containerStyle={styles.buttonStyle} />
+                    <Button
+                        title="Login"
+                        containerStyle={styles.buttonContainerStyle}
+                        buttonStyle={styles.buttonStlye}
+                    />
                     <Button
                         title="Signup"
-                        containerStyle={styles.buttonStyle}
+                        containerStyle={styles.buttonContainerStyle}
+                        buttonStyle={styles.buttonStlye}
                     />
                 </View>
             </View>
@@ -69,9 +74,14 @@ const styles = StyleSheet.create({
         paddingBottom: 20
         // flex: 2
     },
-    buttonStyle: {
+    buttonContainerStyle: {
         paddingLeft: 100,
         paddingRight: 100,
         paddingBottom: 20
+    },
+
+    buttonStlye: {
+        backgroundColor: Globals.COLOR.primaryColor,
+        color: Globals.COLOR.fontDark
     }
 });
