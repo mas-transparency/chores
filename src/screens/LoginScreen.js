@@ -1,0 +1,77 @@
+import React, { Component } from 'react';
+import { View, StyleSheet } from 'react-native';
+import MyHeader from '../components/MyHeader';
+import { Text, Input, Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Globals from '../constants/Globals';
+
+export default class LoginScreen extends Component {
+    // TODO:
+
+    render() {
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Chores</Text>
+                </View>
+                <View style={styles.inputContainer}>
+                    <Input
+                        placeholder="Username"
+                        containerStyle={styles.inputStyle}
+                    />
+                    <Input
+                        placeholder="Password"
+                        containerStyle={styles.inputStyle}
+                    />
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button title="Login" containerStyle={styles.buttonStyle} />
+                    <Button
+                        title="Signup"
+                        containerStyle={styles.buttonStyle}
+                    />
+                </View>
+            </View>
+        );
+    }
+}
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+        // flexDirection: 'column',
+        // justifyContent: 'space-around'
+    },
+    titleContainer: {
+        flex: 2,
+        flexDirection: 'column',
+        justifyContent: 'center'
+        // backgroundColor: 'powderblue',
+    },
+    inputContainer: {
+        flex: 1
+        // backgroundColor: 'skyblue'
+    },
+    buttonContainer: {
+        flex: 1
+        // backgroundColor: 'steelblue'
+    },
+    title: {
+        fontSize: Globals.FONTSIZE.extraLarge,
+        color: Globals.COLOR.primaryColor,
+        alignItems: 'stretch',
+        textAlign: 'center'
+        // flex: 1
+    },
+    inputStyle: {
+        color: Globals.COLOR.primaryColor,
+        paddingLeft: 50,
+        paddingRight: 50,
+        paddingBottom: 20
+        // flex: 2
+    },
+    buttonStyle: {
+        paddingLeft: 100,
+        paddingRight: 100,
+        paddingBottom: 20
+    }
+});
