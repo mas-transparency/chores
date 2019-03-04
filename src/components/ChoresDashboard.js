@@ -22,23 +22,13 @@ export default class ChoresList extends Component {
     }
 
     componentDidMount() {
-        // TODO: hide this later
-        fetch('http://3.93.95.228/chores')
-            .then(response => response.json())
-            .then(responseJson => {
-                const newChores = [];
-                for (const id in responseJson) {
-                    const chore = responseJson[id];
-                    const newChore = { ...chore, id };
-                    newChores.push(newChore);
-                }
-                this.setState({ chores: newChores });
-                // console.log(newChores)
-            });
+        this._onRefresh();
     }
 
     _onRefresh = () => {
         this.setState({ refreshing: true });
+        
+        // TODO: should we hide this later?
         fetch('http://3.93.95.228/chores')
             .then(response => response.json())
             .then(responseJson => {
