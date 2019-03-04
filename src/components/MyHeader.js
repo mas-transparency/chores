@@ -4,13 +4,19 @@ import { Text, Icon } from 'react-native-elements';
 import GLOBALS from '../constants/Globals';
 
 export default class MyHeader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            // 'All Chores' = 0, 'My Chores' = 1, and 'Add New' = 2
+            selected: 1
+        };
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.groupContainer}>
-                    <Text style={styles.groupText}>
-                        My Family
-                    </Text>
+                    <Text style={styles.groupText}>My Family</Text>
                     <Icon
                         type="font-awesome"
                         name="chevron-down"
@@ -24,7 +30,11 @@ export default class MyHeader extends Component {
                         <Icon
                             type="font-awesome"
                             name="users"
-                            color={GLOBALS.COLOR.grey}
+                            color={
+                                this.state.selected == 0
+                                    ? GLOBALS.COLOR.primaryColor
+                                    : GLOBALS.COLOR.secondaryColor
+                            }
                         />
                         <Text style={styles.groupItemText}>All Chores</Text>
                     </View>
@@ -32,9 +42,25 @@ export default class MyHeader extends Component {
                         <Icon
                             type="font-awesome"
                             name="user"
-                            color={GLOBALS.COLOR.secondaryColor}
+                            color={
+                                this.state.selected == 1
+                                    ? GLOBALS.COLOR.primaryColor
+                                    : GLOBALS.COLOR.secondaryColor
+                            }
                         />
                         <Text style={styles.groupItemText}>My Chores</Text>
+                    </View>
+                    <View style={styles.groupItem}>
+                        <Icon
+                            type="font-awesome"
+                            name="plus"
+                            color={
+                                this.state.selected == 2
+                                    ? GLOBALS.COLOR.primaryColor
+                                    : GLOBALS.COLOR.secondaryColor
+                            }
+                        />
+                        <Text style={styles.groupItemText}>Add New</Text>
                     </View>
                 </View>
             </View>
@@ -61,17 +87,17 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     groupText: {
-      color: GLOBALS.COLOR.grey,
-      fontSize: GLOBALS.FONTSIZE.medium,
-      paddingTop: 5,
-      paddingLeft: 20
+        color: GLOBALS.COLOR.grey,
+        fontSize: GLOBALS.FONTSIZE.medium,
+        paddingTop: 5,
+        paddingLeft: 20
     },
     groupItemText: {
-      color: GLOBALS.COLOR.grey,
-      fontSize: GLOBALS.FONTSIZE.small,
-      paddingTop: 5
+        color: GLOBALS.COLOR.grey,
+        fontSize: GLOBALS.FONTSIZE.small,
+        paddingTop: 5
     },
     groupItem: {
-      // TODO: WHAT TO PUT HERE?
+        // TODO: WHAT TO PUT HERE?
     }
 });

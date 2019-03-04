@@ -4,35 +4,58 @@ import {
     View,
     StyleSheet,
     Text,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from 'react-native';
 
 import Global from '../constants/Globals';
 import ChoreBox from './ChoreBox';
 import Globals from '../constants/Globals';
 
-
 export default class ChoresList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chores: [
-                { id: 0, name: 'trash', points: 100 },
-                { id: 1, name: 'trash2', points: 25 },
-                { id: 3, name: 'laundry', points: 7 },
-                { id: 4, name: 'trash', points: 100 },
-                { id: 5, name: 'trash2', points: 25 },
-                { id: 6, name: 'laundry', points: 7 },
-                { id: 7, name: 'trash', points: 100 },
-                { id: 8, name: 'trash2', points: 25 },
-                { id: 9, name: 'laundry', points: 7 },
-                { id: 10, name: 'laundry', points: 7 },
-                { id: 11, name: 'trash', points: 100 },
-                { id: 12, name: 'trash2', points: 25 },
-                { id: 13, name: 'laundry', points: 7 }
-            ]
+            chores: [],
+            refreshing: false
         };
     }
+
+    componentDidMount() {
+        // TODO: hide this later
+        fetch('http://3.93.95.228/chores')
+            .then(response => response.json())
+            .then(responseJson => {
+                const newChores = [];
+                for (const id in responseJson) {
+                    const chore = responseJson[id];
+                    const newChore = { ...chore, id };
+                    newChores.push(newChore);
+                }
+                this.setState({ chores: newChores });
+                // console.log(newChores)
+            });
+    }
+
+    _onRefresh = () => {
+        this.setState({ refreshing: true });
+        fetch('http://3.93.95.228/chores')
+            .then(response => response.json())
+            .then(responseJson => {
+                const newChores = [];
+                for (const id in responseJson) {
+                    const chore = responseJson[id];
+                    const newChore = { ...chore, id };
+                    newChores.push(newChore)
+                }
+                console.log(newChores)
+                this.setState({ chores: newChores });
+            })
+            .then(() => {
+                this.setState({ refreshing: false });
+            });
+    };
+
     _onPressChore(id) {
         const chores = this.state.chores.filter(chore => chore.id != id);
         this.setState({ chores });
@@ -43,13 +66,14 @@ export default class ChoresList extends Component {
         // console.log(this.props.chores.length)
         const chores = this.state.chores.map((chore, index) => {
             return (
-                <TouchableOpacity key={chore.id}
+                <TouchableOpacity
+                    key={chore.id}
                     onPress={() => this._onPressChore(chore.id)}
                     // underlayColor={Globals.COLOR.grey}
                 >
                     <ChoreBox
                         choreName={chore.name}
-                        chorePoints={chore.points}
+                        chorePoints={chore.num_chore_points}
                     />
                 </TouchableOpacity>
             );
@@ -61,7 +85,15 @@ export default class ChoresList extends Component {
     render() {
         // console.log(this.props.chores)
         return (
-            <ScrollView style={styles.container}>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.state.refreshing}
+                        onRefresh={this._onRefresh}
+                    />
+                }
+                style={styles.container}
+            >
                 {this.renderChores()}
             </ScrollView>
         );

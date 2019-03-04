@@ -6,19 +6,24 @@ import {
     ThemeProvider,
     ButtonGroup
 } from 'react-native-elements';
-import HomeScreen from './src/screens/HomeScreen';
+import TaskScreen from './src/screens/TaskScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import Globals from './src/constants/Globals';
+
+
 
 export default class App extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <HomeScreen />
+                <TaskScreen />
             </View>
         );
     }
 }
+
+
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
