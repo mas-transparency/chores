@@ -27,7 +27,7 @@ export default class ChoresList extends Component {
 
     _onRefresh = () => {
         this.setState({ refreshing: true });
-        
+
         // TODO: should we hide this later?
         fetch('http://3.93.95.228/chores')
             .then(response => response.json())
@@ -38,7 +38,7 @@ export default class ChoresList extends Component {
                     const newChore = { ...chore, id };
                     newChores.push(newChore)
                 }
-                console.log(newChores)
+                // console.log(newChores)
                 this.setState({ chores: newChores });
             })
             .then(() => {
