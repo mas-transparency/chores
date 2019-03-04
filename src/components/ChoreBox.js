@@ -7,6 +7,8 @@ export default class ChoreBox extends Component {
         super(props);
     }
 
+    handleClick = () => {};
+
     // TODO: use 'props.chores' to iterate over chores
     render() {
         const color =
@@ -33,11 +35,11 @@ export default class ChoreBox extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: 70,
-        maxWidth: 80,
+        minWidth: 80,
+        maxWidth: 90,
         height: 100,
         marginBottom: 20,
-        marginHorizontal: 20
+        marginHorizontal: 10
     },
     nameContainer: {
         flex: 1,

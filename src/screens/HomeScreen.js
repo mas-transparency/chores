@@ -5,7 +5,7 @@ import { Divider } from 'react-native-elements';
 
 import MyHeader from '../components/MyHeader';
 import PointDashboard from '../components/PointDashboard';
-import ChoresDashboard from '../components/ChoresDashboard';
+import ChoresList from '../components/ChoresDashboard';
 import Footer from '../components/Footer';
 import Globals from '../constants/Globals';
 
@@ -23,7 +23,7 @@ export default class HomeScreen extends React.Component {
                         <PointDashboard />
                     </View>
                     <View style={styles.chores}>
-                        <ChoresDashboard />
+                        <ChoresList />
                     </View>
                 </View>
                 <View style={styles.footerContainer}>

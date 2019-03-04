@@ -1,27 +1,41 @@
 import React, { Component } from 'react';
-import { ScrollView, View, StyleSheet, Text } from 'react-native';
-import ChoreBox from './ChoreBox';
+import {
+    ScrollView,
+    View,
+    StyleSheet,
+    Text,
+    TouchableOpacity
+} from 'react-native';
 
-export default class ChoresDashboard extends Component {
+import Global from '../constants/Globals';
+import ChoreBox from './ChoreBox';
+import Globals from '../constants/Globals';
+
+
+export default class ChoresList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             chores: [
-                { name: 'trash', points: 100 },
-                { name: 'trash2', points: 25 },
-                { name: 'laundry', points: 7 },
-                { name: 'trash', points: 100 },
-                { name: 'trash2', points: 25 },
-                { name: 'laundry', points: 7 },
-                { name: 'trash', points: 100 },
-                { name: 'trash2', points: 25 },
-                { name: 'laundry', points: 7 },
-                { name: 'laundry', points: 7 },
-                { name: 'trash', points: 100 },
-                { name: 'trash2', points: 25 },
-                { name: 'laundry', points: 7 }
+                { id: 0, name: 'trash', points: 100 },
+                { id: 1, name: 'trash2', points: 25 },
+                { id: 3, name: 'laundry', points: 7 },
+                { id: 4, name: 'trash', points: 100 },
+                { id: 5, name: 'trash2', points: 25 },
+                { id: 6, name: 'laundry', points: 7 },
+                { id: 7, name: 'trash', points: 100 },
+                { id: 8, name: 'trash2', points: 25 },
+                { id: 9, name: 'laundry', points: 7 },
+                { id: 10, name: 'laundry', points: 7 },
+                { id: 11, name: 'trash', points: 100 },
+                { id: 12, name: 'trash2', points: 25 },
+                { id: 13, name: 'laundry', points: 7 }
             ]
         };
+    }
+    _onPressChore(id) {
+        const chores = this.state.chores.filter(chore => chore.id != id);
+        this.setState({ chores });
     }
 
     renderChores = () => {
@@ -29,11 +43,15 @@ export default class ChoresDashboard extends Component {
         // console.log(this.props.chores.length)
         const chores = this.state.chores.map((chore, index) => {
             return (
-                <ChoreBox
-                    key={index}
-                    choreName={chore.name}
-                    chorePoints={chore.points}
-                />
+                <TouchableOpacity key={chore.id}
+                    onPress={() => this._onPressChore(chore.id)}
+                    // underlayColor={Globals.COLOR.grey}
+                >
+                    <ChoreBox
+                        choreName={chore.name}
+                        chorePoints={chore.points}
+                    />
+                </TouchableOpacity>
             );
         });
         return <View style={styles.choreContainer}>{chores}</View>;
@@ -42,7 +60,11 @@ export default class ChoresDashboard extends Component {
     // TODO: use 'props.chores' to iterate over chores
     render() {
         // console.log(this.props.chores)
-        return <ScrollView style={styles.container}>{this.renderChores()}</ScrollView>;
+        return (
+            <ScrollView style={styles.container}>
+                {this.renderChores()}
+            </ScrollView>
+        );
     }
 }
 
