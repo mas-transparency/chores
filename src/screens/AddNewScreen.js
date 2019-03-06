@@ -10,7 +10,6 @@ import Globals from '../constants/Globals';
 
 // This Screen refers to the 'Tasks' screen
 export default class AddNewScreen extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -19,28 +18,28 @@ export default class AddNewScreen extends React.Component {
             assigned_user: 'Sangyun',
             num_chore_points: 100,
             priority: 1,
-            reward: '$10,000'
-        }
+            reward: ''
+        };
     }
     handleSubmit = () => {
         // console.log('will handle submit')
         // console.log(this.state);
 
-
-        return fetch("http://3.93.95.228/chores", {
+        return fetch('http://3.93.95.228/chores', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(this.state)
         })
-        .then(response => {
-            // console.log(response);
-        })
-        .catch((error) => {
-            // console.error(error);
-        })
-    }
+            .then(response => {
+                // console.log(response);
+                this.setState({ name: '', reward: '' });
+            })
+            .catch(error => {
+                // console.error(error);
+            });
+    };
 
     render() {
         return (
@@ -54,6 +53,7 @@ export default class AddNewScreen extends React.Component {
                         inputStyle={{ color: 'white' }}
                         labelStyle={{ color: 'white' }}
                         label="Chore Name (*)"
+                        value={this.state.name}
                         onChangeText={name => this.setState({ name })}
                     />
                     <Input
@@ -61,12 +61,18 @@ export default class AddNewScreen extends React.Component {
                         inputStyle={{ color: 'white' }}
                         labelStyle={{ color: 'white' }}
                         label="Reward"
-                        onChangeText={(reward) => this.setState({ reward })}
+                        value={this.state.reward}
+                        onChangeText={reward => this.setState({ reward })}
                     />
-                    <Button style={styles.button}title="ADD" size={40} onPress={this.handleSubmit}/>
+                    <Button
+                        title="ADD"
+                        size={40}
+                        onPress={this.handleSubmit}
+                        buttonStyle={styles.button}
+                    />
                 </View>
                 <View style={styles.footerContainer}>
-                    <Footer/>
+                    <Footer />
                 </View>
             </View>
         );
@@ -82,8 +88,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
-
+        justifyContent: 'center'
     },
     title: {
         color: Globals.COLOR.secondaryColor,
@@ -98,7 +103,6 @@ const styles = StyleSheet.create({
     button: {
         minWidth: 150,
         backgroundColor: Globals.COLOR.primaryColor,
-        color: Globals.COLOR.primaryColor,
     },
     footerContainer: {
         flex: 1,
