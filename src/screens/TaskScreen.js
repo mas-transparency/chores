@@ -32,6 +32,18 @@ const TabNavigator = createMaterialTopTabNavigator(
     }
   },
   {
+    tabBarOptions: {
+      style: {
+        backgroundColor: Globals.COLOR.backgroundColor
+      },
+      tabStyle: {
+        height: 80,
+        flexDirection: "column",
+        justifyContent: "flex-end"
+      }
+    }
+  },
+  {
     backgroundColor: "#f0edf6"
   }
 );
