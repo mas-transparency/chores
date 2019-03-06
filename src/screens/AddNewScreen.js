@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     button: {
         minWidth: 150,
         backgroundColor: Globals.COLOR.primaryColor,
+        color: Globals.COLOR.fontDark
     },
     footerContainer: {
         flex: 1,
