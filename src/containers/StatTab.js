@@ -11,20 +11,10 @@ import Globals from '../constants/Globals';
 export default class StatTab extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <AppContainer />
-            </View>
+            <AppContainer />
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
-        justifyContent: 'center'
-    }
-});
 
 class HomeScreen extends Component {
     render() {
@@ -36,7 +26,7 @@ class HomeScreen extends Component {
                     alignItems: 'center'
                 }}
             >
-                <Text>Stat-Home!</Text>
+                <Text>Stat-Group!</Text>
             </View>
         );
     }
@@ -52,7 +42,7 @@ class SettingsScreen extends React.Component {
                     alignItems: 'center'
                 }}
             >
-                <Text>Stat-Settings!</Text>
+                <Text>Stat-Me!</Text>
             </View>
         );
     }

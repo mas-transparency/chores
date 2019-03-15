@@ -11,9 +11,7 @@ import Globals from '../constants/Globals';
 export default class GroupTab extends Component {
     render() {
         return (
-            <View style={styles.container}>
-                <AppContainer />
-            </View>
+            <AppContainer />
         );
     }
 }
@@ -44,7 +42,7 @@ class HomeScreen extends Component {
 
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        'Group-Feed': HomeScreen,
+        'Group\ Feed': HomeScreen,
     },
     {
         tabBarOptions: {

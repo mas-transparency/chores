@@ -10,21 +10,9 @@ import Globals from '../constants/Globals';
 
 export default class SettingTab extends Component {
     render() {
-        return (
-            <View style={styles.container}>
-                <AppContainer />
-            </View>
-        );
+        return <AppContainer />;
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
-        justifyContent: 'center'
-    }
-});
 
 class HomeScreen extends Component {
     render() {
@@ -42,25 +30,9 @@ class HomeScreen extends Component {
     }
 }
 
-class SettingsScreen extends React.Component {
-    render() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
-            >
-                <Text>Setting-Settings!</Text>
-            </View>
-        );
-    }
-}
-
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        Setting: HomeScreen,
+        Setting: HomeScreen
     },
     {
         tabBarOptions: {

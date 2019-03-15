@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Globals.COLOR.backgroundColor,
         justifyContent: 'center'
+    },
+    icon: {
+        color: Globals.COLOR.grey
     }
 });
 
@@ -33,34 +36,28 @@ const TabNavigator = createBottomTabNavigator(
         Group: {
             screen: GroupTab,
             navigationOptions: {
-                tabBarIcon: () => (
-                    <Icon type="font-awesome" name="users" />
-                )
+                tabBarIcon: () => <Icon type="font-awesome" name="users" iconStyle={styles.icon}/>
             }
         },
         Task: {
             screen: TaskTab,
             navigationOptions: {
-              tabBarIcon: () => (
-                  <Icon type="font-awesome" name="check" />
-              )
-          }
+                tabBarIcon: () => <Icon type="font-awesome" name="check" iconStyle={styles.icon}/>
+            }
         },
         Stat: {
             screen: StatTab,
             navigationOptions: {
-              tabBarIcon: () => (
-                  <Icon type="font-awesome" name="columns" />
-              )
-          }
+                tabBarIcon: () => <Icon type="font-awesome" name="columns" iconStyle={styles.icon}/>
+            }
         },
         Setting: {
             screen: SettingTab,
             navigationOptions: {
-              tabBarIcon: () => (
-                  <Icon type="font-awesome" name="cog" />
-              )
-          }
+                tabBarIcon: () => (
+                    <Icon type="font-awesome" name="cog" iconStyle={styles.icon} />
+                )
+            }
         }
     },
     {

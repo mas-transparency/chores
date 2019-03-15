@@ -49,30 +49,3 @@ const TabNavigator = createMaterialTopTabNavigator(
 );
 
 const TopTabContainer = createAppContainer(TabNavigator);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    headerContainer: {
-        flex: 1
-    },
-    choresContainer: {
-        flex: 4
-    },
-    points: {
-        flex: 1
-    },
-    chores: {
-        flex: 3
-        // backgroundColor: 'blue'
-    },
-    footerContainer: {
-        flex: 1,
-        maxHeight: 50
-    },
-    divider: {
-        backgroundColor: Globals.COLOR.grey,
-        height: 1
-    }
-});
