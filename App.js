@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {
-    Header,
-    Button,
-    ThemeProvider,
-    ButtonGroup
-} from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 
 import Globals from './src/constants/Globals';
@@ -35,10 +30,38 @@ const styles = StyleSheet.create({
 // getting all Tabs and display
 const TabNavigator = createBottomTabNavigator(
     {
-        Group: GroupTab,
-        Task: TaskTab,
-        Stat: StatTab,
-        Setting: SettingTab
+        Group: {
+            screen: GroupTab,
+            navigationOptions: {
+                tabBarIcon: () => (
+                    <Icon type="font-awesome" name="users" />
+                )
+            }
+        },
+        Task: {
+            screen: TaskTab,
+            navigationOptions: {
+              tabBarIcon: () => (
+                  <Icon type="font-awesome" name="check" />
+              )
+          }
+        },
+        Stat: {
+            screen: StatTab,
+            navigationOptions: {
+              tabBarIcon: () => (
+                  <Icon type="font-awesome" name="columns" />
+              )
+          }
+        },
+        Setting: {
+            screen: SettingTab,
+            navigationOptions: {
+              tabBarIcon: () => (
+                  <Icon type="font-awesome" name="cog" />
+              )
+          }
+        }
     },
     {
         tabBarOptions: {
@@ -47,7 +70,8 @@ const TabNavigator = createBottomTabNavigator(
             },
             activeTintColor: Globals.COLOR.primaryColor,
             inactiveTintColor: Globals.COLOR.secondaryColor
-        }
+        },
+        initialRouteName: 'Task'
     }
 );
 

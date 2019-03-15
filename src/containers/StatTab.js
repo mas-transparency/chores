@@ -60,8 +60,8 @@ class SettingsScreen extends React.Component {
 
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        Home: HomeScreen,
-        Settings: SettingsScreen
+        Group: HomeScreen,
+        Me: SettingsScreen
     },
     {
         tabBarOptions: {

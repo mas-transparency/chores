@@ -24,7 +24,7 @@ export default class TaskTab extends React.Component {
 
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        MyChores: {
+        'My\ Chores': {
             screen: MyChoresScreen
         },
         AddNew: {

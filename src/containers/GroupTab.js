@@ -42,28 +42,10 @@ class HomeScreen extends Component {
     }
 }
 
-class SettingsScreen extends React.Component {
-    render() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
-            >
-                <Text>Group-Settings!</Text>
-            </View>
-        );
-    }
-}
-
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        Home: HomeScreen,
-        Settings: SettingsScreen
+        'Group-Feed': HomeScreen,
     },
-
     {
         tabBarOptions: {
             style: {
