@@ -13,16 +13,11 @@ export default class MyChoresScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.choresContainer}>
-                    <View style={styles.points}>
-                        <PointDashboard />
-                    </View>
-                    <View style={styles.chores}>
-                        <ChoresList />
-                    </View>
+                <View style={styles.points}>
+                    <PointDashboard />
                 </View>
-                <View style={styles.footerContainer}>
-                    <Footer />
+                <View style={styles.chores}>
+                    <ChoresList />
                 </View>
             </View>
         );
@@ -31,12 +26,9 @@ export default class MyChoresScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 1
         // alignItems: 'center',
         // justifyContent: 'center'
-    },
-    choresContainer: {
-        flex: 3
     },
     points: {
         flex: 1
@@ -44,9 +36,5 @@ const styles = StyleSheet.create({
     chores: {
         flex: 3
         // backgroundColor: 'blue'
-    },
-    footerContainer: {
-        flex: 1,
-        maxHeight: 50
     }
 });
