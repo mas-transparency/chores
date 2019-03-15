@@ -4,7 +4,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Divider } from 'react-native-elements';
 
 import PointDashboard from '../components/PointDashboard';
-import ChoresList from '../components/ChoresDashboard';
+import ChoresDashboard from '../components/ChoresDashboard';
 import Footer from '../components/Footer';
 import Globals from '../constants/Globals';
 
@@ -17,7 +17,7 @@ export default class MyChoresScreen extends React.Component {
                     <PointDashboard />
                 </View>
                 <View style={styles.chores}>
-                    <ChoresList />
+                    <ChoresDashboard />
                 </View>
             </View>
         );

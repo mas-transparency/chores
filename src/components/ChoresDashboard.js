@@ -12,7 +12,7 @@ import Global from "../constants/Globals";
 import ChoreBox from "./ChoreBox";
 import Globals from "../constants/Globals";
 
-export default class ChoresList extends Component {
+export default class ChoresDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {

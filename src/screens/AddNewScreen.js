@@ -4,7 +4,6 @@ import { Input, Button } from 'react-native-elements';
 
 import MyHeader from '../components/MyHeader';
 import PointDashboard from '../components/PointDashboard';
-import ChoresList from '../components/ChoresDashboard';
 import Footer from '../components/Footer';
 import Globals from '../constants/Globals';
 
