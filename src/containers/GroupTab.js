@@ -7,6 +7,8 @@ import {
 } from 'react-navigation';
 
 import GroupFeedScreen from '../screens/GroupFeedScreen';
+import AddNewGroupScreen from '../screens/AddNewGroupScreen';
+import AllGroupsScreen from '../screens/AllGroupsScreen';
 import Globals from '../constants/Globals';
 
 export default class GroupTab extends Component {
@@ -17,7 +19,9 @@ export default class GroupTab extends Component {
 
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        'Group\ Feed': GroupFeedScreen
+        'Group\ Feed': GroupFeedScreen,
+        'All\ Groups':AllGroupsScreen, 
+        'New': AddNewGroupScreen
     },
     {
         tabBarOptions: {
@@ -29,10 +33,11 @@ const TabNavigator = createMaterialTopTabNavigator(
                 flexDirection: 'column',
                 justifyContent: 'flex-end'
             }
-        }
+        },
+        initialRouteName: 'Group\ Feed'
     },
     {
-        backgroundColor: '#f0edf6'
+        backgroundColor: '#f0edf6',
     }
 );
 

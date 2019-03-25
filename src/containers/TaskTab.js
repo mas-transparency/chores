@@ -27,7 +27,7 @@ const TabNavigator = createMaterialTopTabNavigator(
         'My\ Chores': {
             screen: MyChoresScreen
         },
-        AddNew: {
+        'Add\ New': {
             screen: AddNewChoreScreen
         }
     },
