@@ -6,43 +6,18 @@ import {
     createMaterialTopTabNavigator
 } from 'react-navigation';
 
+import GroupFeedScreen from '../screens/GroupFeedScreen';
 import Globals from '../constants/Globals';
 
 export default class GroupTab extends Component {
     render() {
-        return (
-            <AppContainer />
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
-        justifyContent: 'center'
-    }
-});
-
-class HomeScreen extends Component {
-    render() {
-        return (
-            <View
-                style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
-            >
-                <Text>Group-Home!</Text>
-            </View>
-        );
+        return <AppContainer />;
     }
 }
 
 const TabNavigator = createMaterialTopTabNavigator(
     {
-        'Group\ Feed': HomeScreen,
+        'Group\ Feed': GroupFeedScreen
     },
     {
         tabBarOptions: {

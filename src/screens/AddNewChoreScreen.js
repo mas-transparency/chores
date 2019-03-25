@@ -31,6 +31,7 @@ export default class AddNewScreen extends React.Component {
         })
             .then(response => {
                 // console.log(response);
+                this.setState({ name: '', reward: '' });
             })
             .catch(error => {
                 // console.error(error);
@@ -49,6 +50,7 @@ export default class AddNewScreen extends React.Component {
                         inputStyle={{ color: 'white' }}
                         labelStyle={{ color: 'white' }}
                         label="Chore Name (*)"
+                        value={this.state.name}
                         onChangeText={name => this.setState({ name })}
                     />
                     <Input
@@ -56,6 +58,7 @@ export default class AddNewScreen extends React.Component {
                         inputStyle={{ color: 'white' }}
                         labelStyle={{ color: 'white' }}
                         label="Reward"
+                        value={this.state.reward}
                         onChangeText={reward => this.setState({ reward })}
                     />
                     <Button

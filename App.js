@@ -68,7 +68,8 @@ const TabNavigator = createBottomTabNavigator(
             activeTintColor: Globals.COLOR.primaryColor,
             inactiveTintColor: Globals.COLOR.secondaryColor
         },
-        initialRouteName: 'Task'
+        // FIXME: revert it back to 'Task' later
+        initialRouteName: 'Group'
     }
 );
 
