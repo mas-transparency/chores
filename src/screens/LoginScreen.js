@@ -1,12 +1,35 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Input, Button } from 'react-native-elements';
+import firebase from 'firebase';
+
 
 import MyHeader from '../components/MyHeader';
 import Globals from '../constants/Globals';
 
 export default class LoginScreen extends Component {
-    // TODO:
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: 'test@test.com',
+            password: 'password'
+        }
+    }
+
+    handleLogin = () => {
+        console.log(this.state)
+        console.log('handle Login!');
+        
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(user => {
+                this.props.navigation.navigate('Main')
+            })
+            .catch(error => {
+                const { code, message } = error;
+                console.log(message);
+            })
+
+    }
 
     render() {
         return (
@@ -16,12 +39,17 @@ export default class LoginScreen extends Component {
                 </View>
                 <View style={styles.inputContainer}>
                     <Input
-                        placeholder="Username"
+                        placeholder="Email"
                         containerStyle={styles.inputStyle}
+                        onChangeText={email => this.setState({ email })}
+                        value={this.state.email}
                     />
                     <Input
                         placeholder="Password"
                         containerStyle={styles.inputStyle}
+                        onChangeText={password => this.setState({ password })}
+                        value={this.state.password}
+                        secureTextEntry={true}
                     />
                 </View>
                 <View style={styles.buttonContainer}>
@@ -29,6 +57,7 @@ export default class LoginScreen extends Component {
                         title="Login"
                         containerStyle={styles.buttonContainerStyle}
                         buttonStyle={styles.buttonStlye}
+                        onPress={() => this.handleLogin()}
                     />
                     <Button
                         title="Signup"
