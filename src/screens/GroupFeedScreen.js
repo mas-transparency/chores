@@ -1,71 +1,108 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Globals from '../constants/Globals';
-import Card from '../components/Card'
+import {
+    StyleSheet,
+    Text,
+    View,
+    ScrollView,
+    TouchableOpacity
+} from 'react-native';
+import { ListItem } from 'react-native-elements';
 
+import Globals from '../constants/Globals';
+import Card from '../components/Card';
 
 export default class GroupFeedScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // FIXME: dummy data for now -- change later
-            members: {
-                first: {
+            groupName: 'Georgia Tech Chores',
+            members: [
+                {
                     name: 'Jessica Pan',
-                    chores: 80,
-                    points: 1000,
+                    chore: 'Clean it!',
+                    points: 100,
                     likes: 100
                 },
-                second: {
+                {
                     name: 'MJ Park',
-                    chores: 100,
-                    points: 2000,
+                    chore: 'do something',
+                    points: 200,
                     likes: 30
                 },
-                third: {
+                {
                     name: 'Kevin',
-                    chores: 2,
+                    chore: 'buy grocery',
                     points: 10,
                     likes: 0
                 },
-                fourth: {
-                    name: 'Jessica',
-                    chores: 80,
-                    points: 1000,
+                {
+                    name: 'Michael',
+                    chore: 'clean the room',
+                    points: 100,
                     likes: 100
                 },
-                fifth: {
-                    name: 'Jessica',
-                    chores: 80,
-                    points: 1000,
+                {
+                    name: 'MJ',
+                    chore: 'get some sleep',
+                    points: 100,
                     likes: 100
                 }
-            }
+            ]
         };
     }
+
+    renderGroupFeeds = () => {
+        const groupFeeds = this.state.members.map((item, i) => (
+            <TouchableOpacity>
+                <ListItem
+                    key={i}
+                    title={item.name}
+                    subtitle={item.chore}
+                    containerStyle={styles.feedCard}
+                    // titleStyle={{ color: Globals.COLOR.primaryColor }}
+                    // subtitleStyle={{ color: Globals.COLOR.primaryColor }}
+                    rightTitle={`${item.points} pts`}
+                />
+            </TouchableOpacity>
+        ));
+        return groupFeeds;
+    };
+
     render() {
         return (
-            <View style={styles.container}>
-              <View style={styles.headerContainer}>
-                <Text>HEADER</Text>
-              </View>
-              <View style={styles.cardsContainer}>
-                <Card user={this.state.members.first}/>
-              </View>
-            </View>
+            <ScrollView style={styles.container}>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerText}>{this.state.groupName}</Text>
+                </View>
+                <View style={styles.cardsContainer}>
+                    {this.renderGroupFeeds()}
+                </View>
+            </ScrollView>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
-        // justifyContent: 'center'
     },
     headerContainer: {
-      flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        marginVertical: 20,
+        paddingLeft: 20
+    },
+    headerText: {
+        color: Globals.COLOR.primaryColor,
+        fontSize: Globals.FONTSIZE.medium
     },
     cardsContainer: {
-      flex: 10
+        flex: 10,
+        alignContent: 'space-between'
+    },
+    feedCard: {
+        backgroundColor: Globals.COLOR.primaryColor,
+        marginBottom: 10,
+        marginHorizontal: 10,
     }
 });
