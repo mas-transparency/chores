@@ -3,8 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
 import DropdownAlert from 'react-native-dropdownalert';
-import { Notifications} from 'expo';
-import {registerForPushNotificationsAsync} from './src/lib/registerForPushNotificationsAsync';
+import { Notifications } from 'expo';
+import { registerForPushNotificationsAsync } from './src/lib/registerForPushNotificationsAsync';
+import firebase from 'firebase';
 
 import LoginScreen from './src/screens/LoginScreen';
 import Globals from './src/constants/Globals';
@@ -22,10 +23,8 @@ export default class Main extends Component {
         };
     }
     componentDidMount() {
-
         // authentication
-        registerForPushNotificationsAsync()
-        .then(response => {
+        registerForPushNotificationsAsync().then(response => {
             console.log(response);
         });
 
@@ -34,23 +33,32 @@ export default class Main extends Component {
         // notification (rather than just tapping the app icon to open it),
         // this function will fire on the next tick after the app starts
         // with the notification data.
-        this._notificationSubscription = Notifications.addListener(this._handleNotification);
+        this._notificationSubscription = Notifications.addListener(
+            this._handleNotification
+        );
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // TODO: set current user to logged in user here
+                console.log(user)
+            }
+        })
     }
 
-  _handleNotification = (notification) => {
-    this.dropdown.alertWithType('info', notification.data.title, notification.data.body);
-  };
-
-  updateLogin = () => {
-      // update login info 
-      console.log('update called!!')
-    //   this.setState({ user })
-  }
+    _handleNotification = notification => {
+        this.dropdown.alertWithType(
+            'info',
+            notification.data.title,
+            notification.data.body
+        );
+    };
 
     render() {
-        console.log('rendering Main')
         return (
+            <View style={styles.container}>
                 <AppContainer />
+                <DropdownAlert ref={ref => this.dropdown = ref} />
+            </View>    
         );
     }
 }
@@ -72,26 +80,48 @@ const TabNavigator = createBottomTabNavigator(
         Group: {
             screen: GroupTab,
             navigationOptions: {
-                tabBarIcon: () => <Icon type="font-awesome" name="users" iconStyle={styles.icon}/>
+                tabBarIcon: () => (
+                    <Icon
+                        type="font-awesome"
+                        name="users"
+                        iconStyle={styles.icon}
+                    />
+                )
             }
         },
         Task: {
             screen: TaskTab,
             navigationOptions: {
-                tabBarIcon: () => <Icon type="font-awesome" name="check" iconStyle={styles.icon}/>
+                tabBarIcon: () => (
+                    <Icon
+                        type="font-awesome"
+                        name="check"
+                        iconStyle={styles.icon}
+                    />
+                )
             }
         },
         Stat: {
             screen: StatTab,
             navigationOptions: {
-                tabBarIcon: () => <Icon type="font-awesome" name="columns" iconStyle={styles.icon}/>
+                tabBarIcon: () => (
+                    <Icon
+                        type="font-awesome"
+                        name="columns"
+                        iconStyle={styles.icon}
+                    />
+                )
             }
         },
         Setting: {
             screen: SettingTab,
             navigationOptions: {
                 tabBarIcon: () => (
-                    <Icon type="font-awesome" name="cog" iconStyle={styles.icon} />
+                    <Icon
+                        type="font-awesome"
+                        name="cog"
+                        iconStyle={styles.icon}
+                    />
                 )
             }
         }
@@ -110,4 +140,3 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const AppContainer = createAppContainer(TabNavigator);
-

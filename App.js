@@ -44,5 +44,5 @@ const AppNavigator = createSwitchNavigator(
     }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
 firebase.initializeApp(config);
+const AppContainer = createAppContainer(AppNavigator);
