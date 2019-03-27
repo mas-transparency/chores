@@ -40,7 +40,8 @@ export default class Main extends Component {
         firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 // TODO: set current user to logged in user here
-                console.log(user)
+                // console.log(user)
+                console.log('user logged in detected')
             }
         })
     }
@@ -54,7 +55,7 @@ export default class Main extends Component {
     };
 
     render() {
-        console.log(firebase.auth().currentUser)
+        // console.log(firebase.auth().currentUser)
         return (
             <View style={styles.container}>
                 <AppContainer />
