@@ -20,7 +20,7 @@ export default class AddNewScreen extends React.Component {
     }
     handleSubmit = () => {
         // console.log('will handle submit')
-        console.log(this.state);
+        console.log(JSON.stringify(this.state));
 
         return fetch('http://3.93.95.228/chores', {
             method: 'POST',

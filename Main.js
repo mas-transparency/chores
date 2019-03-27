@@ -54,6 +54,7 @@ export default class Main extends Component {
     };
 
     render() {
+        console.log(firebase.auth().currentUser)
         return (
             <View style={styles.container}>
                 <AppContainer />

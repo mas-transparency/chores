@@ -9,6 +9,7 @@ import firebase from 'firebase';
 
 import Main from './Main';
 import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 import Globals from './src/constants/Globals';
 import config from './config';
 
@@ -37,12 +38,14 @@ const styles = StyleSheet.create({
 const AppNavigator = createSwitchNavigator(
     {
         Login: LoginScreen,
-        Main: Main
+        Main: Main,
+        SignUp: SignUpScreen
     },
     {
         initialRouteName: 'Login'
     }
 );
 
-firebase.initializeApp(config);
 const AppContainer = createAppContainer(AppNavigator);
+
+firebase.initializeApp(config);

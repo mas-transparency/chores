@@ -19,30 +19,35 @@ export default class GroupFeedScreen extends Component {
             groupName: 'Georgia Tech Chores',
             members: [
                 {
+                    id: 1,
                     name: 'Jessica Pan',
                     chore: 'Clean it!',
                     points: 100,
                     likes: 100
                 },
                 {
+                    id:2,
                     name: 'MJ Park',
                     chore: 'do something',
                     points: 200,
                     likes: 30
                 },
                 {
+                    id: 3,
                     name: 'Kevin',
                     chore: 'buy grocery',
                     points: 10,
                     likes: 0
                 },
                 {
+                    id: 4,
                     name: 'Michael',
                     chore: 'clean the room',
                     points: 100,
                     likes: 100
                 },
                 {
+                    id: 5,
                     name: 'MJ',
                     chore: 'get some sleep',
                     points: 100,
@@ -54,9 +59,8 @@ export default class GroupFeedScreen extends Component {
 
     renderGroupFeeds = () => {
         const groupFeeds = this.state.members.map((item, i) => (
-            <TouchableOpacity>
+            <TouchableOpacity key={item.id}>
                 <ListItem
-                    key={i}
                     title={item.name}
                     subtitle={item.chore}
                     containerStyle={styles.feedCard}
