@@ -41,6 +41,9 @@ export default class AllGroupsScreen extends Component {
         };
     }
     componentDidMount() {
+        this.getAllGroups();
+    }
+    getAllGroups = () => {
         firebase
             .auth()
             .currentUser.getIdToken(true)
@@ -64,7 +67,7 @@ export default class AllGroupsScreen extends Component {
                         // console.error(error);
                     });
             });
-    }
+    };
 
     _displayGroupInfo = id => {
         // update selected item, may need to remove later
@@ -125,9 +128,38 @@ export default class AllGroupsScreen extends Component {
                         console.log(error);
                     });
             })
+            .then(() => {
+                firebase
+                .auth()
+                .currentUser.getIdToken(true)
+                .then(idToken => {
+                    console.log('fetching');
+                    fetch('http://3.93.95.228/assigned-groups', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            idToken: idToken
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(responseJson => {
+                            const groups = Object.values(responseJson);
+                            this.setState({ groups });
+                        })
+                        .catch(error => {
+                            // console.error(error);
+                        });
+                });
+            }
+
+            )
             .catch(function(error) {
                 console.log(error);
             });
+
+       
     };
 
     render() {
@@ -139,7 +171,7 @@ export default class AllGroupsScreen extends Component {
                 </View>
                 <View style={styles.buttonContainer}>
                     <Button
-                        title="Create New Group"
+                        title="Refresh"
                         containerStyle={styles.buttonContainerStyle}
                         buttonStyle={styles.buttonStyle}
                         onPress={this.createNewGroup}
