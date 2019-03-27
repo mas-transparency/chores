@@ -41,12 +41,11 @@ export default class AllGroupsScreen extends Component {
         };
     }
     componentDidMount() {
-        
         firebase
             .auth()
             .currentUser.getIdToken(true)
             .then(idToken => {
-                console.log('fetching')
+                console.log('fetching');
                 fetch('http://3.93.95.228/assigned-groups', {
                     method: 'POST',
                     headers: {
@@ -80,7 +79,9 @@ export default class AllGroupsScreen extends Component {
                 <ListItem
                     onPress={() => this._displayGroupInfo(group.id)}
                     title={group.name}
-                    subtitle={`${group["members"] ? group.members.length : 0 } members`}
+                    subtitle={`${
+                        group['members'] ? group.members.length : 0
+                    } members`}
                     rightTitle=">"
                     containerStyle={
                         this.state.selected == group.id
@@ -94,7 +95,39 @@ export default class AllGroupsScreen extends Component {
     };
 
     createNewGroup = () => {
-        // TODO: removed for now, will need to recover.
+        token = null;
+        name = this.state.name;
+        props = this.props;
+        firebase
+            .auth()
+            .currentUser.getIdToken(true)
+            .then(function(idToken) {
+                console.log(idToken);
+                fetch('http://3.93.95.228/group', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: 'test-group-name',
+                        name: name,
+                        idToken: idToken
+                    })
+                })
+                    .then(response => {
+                        console.log(response);
+                    })
+                    .catch(error => {
+                        // TODO: update all groups user is in
+                        props.navigation.navigate('AddNewGroup');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     };
 
     render() {
