@@ -36,9 +36,8 @@ export default class AllGroupsScreen extends Component {
 
     renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
-            <TouchableOpacity>
+            <TouchableOpacity key={index}>
                 <ListItem
-                    key={index}
                     onPress={() => this._displayGroupInfo}
                     title={group.name}
                     subtitle={`${group.roommates.length} members`}
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     userGroupsContainer: {
-        flex: 10,
+        flex: 3,
         marginTop: 10,
         alignContent: 'space-between'
     },
@@ -122,7 +121,6 @@ const styles = StyleSheet.create({
     },
     buttonStyle: {
         backgroundColor: Globals.COLOR.primaryColor,
-        color: Globals.COLOR.fontDark
     },
     feedCard: {
         backgroundColor: Globals.COLOR.primaryColor,
