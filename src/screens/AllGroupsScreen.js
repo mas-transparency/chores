@@ -35,43 +35,43 @@ export default class AllGroupsScreen extends Component {
                     id: 2,
                     name: 'THE THE THE BEST ',
                     roommates: ['mj', 'michael', 'kevin', 'jessica']
-                },
+                }
             ],
             selected: -1
         };
     }
-
-    _displayGroupInfo = (id) => {
-        // update selected item, may need to remove later
-        this.setState({ selected: id })
-
-        // this.props.navigation.navigate('')
+    componentDidMount() {
+        
+        firebase
+            .auth()
+            .currentUser.getIdToken(true)
+            .then(idToken => {
+                console.log('fetching')
+                fetch('http://3.93.95.228/assigned-groups', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        idToken: idToken
+                    })
+                })
+                    .then(response => response.json())
+                    .then(responseJson => {
+                        const groups = Object.values(responseJson);
+                        this.setState({ groups });
+                    })
+                    .catch(error => {
+                        // console.error(error);
+                    });
+            });
     }
 
-    createNewGroup = () => {
-        token = null
-        firebase.auth().currentUser.getIdToken(true)
-        .then(function(idToken) {
-            fetch('http://3.93.95.228/group', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    name: 'test-group-name',
-                    idToken: idToken
-                })
-            }).then(response => {
-                console.log(response);
-                // TODO: update all groups user is in
-                this.props.navigation.navigate('AddNewGroup')
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }).catch(function(error) {
-          
-        });
+    _displayGroupInfo = id => {
+        // update selected item, may need to remove later
+        this.setState({ selected: id });
+
+        // this.props.navigation.navigate('')
     };
 
     renderGroups = () => {
@@ -80,18 +80,25 @@ export default class AllGroupsScreen extends Component {
                 <ListItem
                     onPress={() => this._displayGroupInfo(group.id)}
                     title={group.name}
-                    subtitle={`${group.roommates.length} members`}
-                    rightTitle='>'
-                    containerStyle={this.state.selected == group.id ? styles.feedCardSelected : styles.feedCard}
+                    subtitle={`${group["members"] ? group.members.length : 0 } members`}
+                    rightTitle=">"
+                    containerStyle={
+                        this.state.selected == group.id
+                            ? styles.feedCardSelected
+                            : styles.feedCard
+                    }
                 />
             </TouchableOpacity>
         ));
         return groups;
     };
 
-    
+    createNewGroup = () => {
+        // TODO: removed for now, will need to recover.
+    };
 
     render() {
+        console.log(this.state.selected);
         return (
             <View style={styles.container}>
                 <View style={styles.userGroupsContainer}>
@@ -133,15 +140,15 @@ const styles = StyleSheet.create({
         paddingBottom: 20
     },
     buttonStyle: {
-        backgroundColor: Globals.COLOR.primaryColor,
+        backgroundColor: Globals.COLOR.primaryColor
     },
     feedCard: {
         backgroundColor: Globals.COLOR.secondaryColor,
-        marginBottom: 10,
+        marginBottom: 10
         // marginHorizontal: 10,
     },
     feedCardSelected: {
         backgroundColor: Globals.COLOR.primaryColor,
-        marginBottom: 10,
+        marginBottom: 10
     }
 });
