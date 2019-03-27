@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         alignContent: 'space-between'
     },
     feedCard: {
-        backgroundColor: Globals.COLOR.primaryColor,
+        backgroundColor: Globals.COLOR.secondaryColor,
         marginBottom: 10,
         marginHorizontal: 10,
     }

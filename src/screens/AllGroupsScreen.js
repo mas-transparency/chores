@@ -28,7 +28,12 @@ export default class AllGroupsScreen extends Component {
                 },
                 {
                     id: 1,
-                    name: 'Best Roommats',
+                    name: 'Best Roommates',
+                    roommates: ['mj', 'michael', 'kevin', 'jessica']
+                },
+                {
+                    id: 2,
+                    name: 'THE THE THE BEST ',
                     roommates: ['mj', 'michael', 'kevin', 'jessica']
                 },
             ],
@@ -36,7 +41,10 @@ export default class AllGroupsScreen extends Component {
         };
     }
 
-    _displayGroupInfo = () => {
+    _displayGroupInfo = (id) => {
+        // update selected item, may need to remove later
+        this.setState({ selected: id })
+
         // this.props.navigation.navigate('')
     }
 
@@ -44,11 +52,11 @@ export default class AllGroupsScreen extends Component {
         const groups = this.state.groups.map((group, index) => (
             <TouchableOpacity key={index}>
                 <ListItem
-                    onPress={() => this._displayGroupInfo}
+                    onPress={() => this._displayGroupInfo(group.id)}
                     title={group.name}
                     subtitle={`${group.roommates.length} members`}
                     rightTitle='>'
-                    containerStyle={styles.feedCard}
+                    containerStyle={this.state.selected == group.id ? styles.feedCardSelected : styles.feedCard}
                 />
             </TouchableOpacity>
         ));
@@ -85,6 +93,7 @@ export default class AllGroupsScreen extends Component {
     };
 
     render() {
+        console.log(this.state.selected)
         return (
             <View style={styles.container}>
                 <View style={styles.userGroupsContainer}>
@@ -129,8 +138,12 @@ const styles = StyleSheet.create({
         backgroundColor: Globals.COLOR.primaryColor,
     },
     feedCard: {
-        backgroundColor: Globals.COLOR.primaryColor,
+        backgroundColor: Globals.COLOR.secondaryColor,
         marginBottom: 10,
         // marginHorizontal: 10,
+    },
+    feedCardSelected: {
+        backgroundColor: Globals.COLOR.primaryColor,
+        marginBottom: 10,
     }
 });
