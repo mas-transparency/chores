@@ -10,6 +10,7 @@ import firebase from 'firebase';
 import Main from './Main';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import AddNewGroupScreen from './src/screens/AddNewGroupScreen';
 import Globals from './src/constants/Globals';
 import config from './config';
 
@@ -39,7 +40,8 @@ const AppNavigator = createSwitchNavigator(
     {
         Login: LoginScreen,
         Main: Main,
-        SignUp: SignUpScreen
+        SignUp: SignUpScreen,
+        // AddNewGroup: AddNewGroupScreen
     },
     {
         initialRouteName: 'Login'

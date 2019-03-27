@@ -20,8 +20,8 @@ export default class GroupTab extends Component {
 const TabNavigator = createMaterialTopTabNavigator(
     {
         'Group\ Feed': GroupFeedScreen,
-        'All\ Groups':AllGroupsScreen, 
-        // 'New': AddNewGroupScreen
+        'All\ Groups':AllGroupsScreen,
+        'AddNewGroup': AddNewGroupScreen
     },
     {
         tabBarOptions: {

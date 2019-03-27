@@ -48,6 +48,32 @@ export default class AllGroupsScreen extends Component {
         // this.props.navigation.navigate('')
     }
 
+    createNewGroup = () => {
+        token = null
+        firebase.auth().currentUser.getIdToken(true)
+        .then(function(idToken) {
+            fetch('http://3.93.95.228/group', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: 'test-group-name',
+                    idToken: idToken
+                })
+            }).then(response => {
+                console.log(response);
+                // TODO: update all groups user is in
+                this.props.navigation.navigate('AddNewGroup')
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }).catch(function(error) {
+          
+        });
+    };
+
     renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
             <TouchableOpacity key={index}>
@@ -63,37 +89,9 @@ export default class AllGroupsScreen extends Component {
         return groups;
     };
 
-    createNewGroup = () => {
-        token = null
-        firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-          // Send token to your backend via HTTPS
-          token = idToken
-        }).catch(function(error) {
-          // Handle error
-        });
-        
-        return fetch('http://3.93.95.228/group', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: {
-                name: "test-group-name",
-                idToken: token
-            }
-        })
-            .then(response => {
-                console.log(response);
-
-                // TODO: update all groups user is in
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    };
+    
 
     render() {
-        console.log(this.state.selected)
         return (
             <View style={styles.container}>
                 <View style={styles.userGroupsContainer}>
