@@ -14,68 +14,6 @@ import TaskTab from './src/containers/TaskTab';
 import StatTab from './src/containers/StatTab';
 import SettingTab from './src/containers/SettingTab';
 
-export default class Main extends Component {
-    constructor() {
-        super();
-        this.unsubscriber = null;
-        this.state = {
-            user: null
-        };
-    }
-    componentDidMount() {
-        // authentication
-        registerForPushNotificationsAsync().then(response => {
-            console.log(response);
-        });
-
-        // Handle notifications that are received or selected while the app
-        // is open. If the app was closed and then opened by tapping the
-        // notification (rather than just tapping the app icon to open it),
-        // this function will fire on the next tick after the app starts
-        // with the notification data.
-        this._notificationSubscription = Notifications.addListener(
-            this._handleNotification
-        );
-
-        firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                // TODO: set current user to logged in user here
-                // console.log(user)
-                console.log('user logged in detected')
-            }
-        })
-    }
-
-    _handleNotification = notification => {
-        this.dropdown.alertWithType(
-            'info',
-            notification.data.title,
-            notification.data.body
-        );
-    };
-
-    render() {
-        // console.log(firebase.auth().currentUser)
-        return (
-            <View style={styles.container}>
-                <AppContainer />
-                <DropdownAlert ref={ref => this.dropdown = ref} />
-            </View>    
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
-        justifyContent: 'center'
-    },
-    icon: {
-        color: Globals.COLOR.grey
-    }
-});
-
 // getting all Tabs and display
 const TabNavigator = createBottomTabNavigator(
     {
@@ -142,3 +80,64 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 const AppContainer = createAppContainer(TabNavigator);
+
+export default class Main extends Component {
+    constructor() {
+        super();
+        this.unsubscriber = null;
+        this.state = {
+            user: null
+        };
+    }
+    componentDidMount() {
+
+        // Handle notifications that are received or selected while the app
+        // is open. If the app was closed and then opened by tapping the
+        // notification (rather than just tapping the app icon to open it),
+        // this function will fire on the next tick after the app starts
+        // with the notification data.
+        this._notificationSubscription = Notifications.addListener(
+            this._handleNotification
+        );
+
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                // TODO: set current user to logged in user here
+                this.state.user = user;
+                registerForPushNotificationsAsync(user).then(response => {
+                    console.log(response);
+                });
+            }
+        })
+    }
+
+    _handleNotification = notification => {
+        this.dropdown.alertWithType(
+            'info',
+            notification.data.title,
+            notification.data.body
+        );
+    };
+
+    static router = TabNavigator.router;
+    render() {
+        console.log(firebase.auth().currentUser)
+        return (
+            <View style={styles.container}>
+                <AppContainer  navigation={this.props.navigation}/>
+                <DropdownAlert ref={ref => this.dropdown = ref} />
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Globals.COLOR.backgroundColor,
+        justifyContent: 'center'
+    },
+    icon: {
+        color: Globals.COLOR.grey
+    }
+});

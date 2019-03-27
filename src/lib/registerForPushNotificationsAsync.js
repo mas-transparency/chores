@@ -1,7 +1,8 @@
 import { Permissions, Notifications } from 'expo';
+import firebase from 'firebase';
 const PUSH_ENDPOINT = 'http://3.93.95.228/devices';
 
-export async function registerForPushNotificationsAsync() {
+export async function registerForPushNotificationsAsync(user) {
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS
   );
@@ -23,6 +24,7 @@ export async function registerForPushNotificationsAsync() {
 
   // Get the token that uniquely identifies this device
   let token = await Notifications.getExpoPushTokenAsync();
+  // Get our firebase uid as well
   return fetch(PUSH_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -30,9 +32,8 @@ export async function registerForPushNotificationsAsync() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: token,
-      //filler for actual username when we implement login service
-      username: 'Brent'
+      'idToken': token,
+      'uid': user.uid
     }),
   });;
 }

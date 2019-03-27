@@ -16,7 +16,7 @@ export default class GroupFeedScreen extends Component {
         super(props);
         this.state = {
             // FIXME: dummy data for now -- change later
-            groupName: 'Georgia Tech Chores',
+            groupName: '2019 Crecine roommates',
             members: [
                 {
                     id: 1,

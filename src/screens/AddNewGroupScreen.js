@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import firebase from 'firebase';
 
 import {
     createBottomTabNavigator,
@@ -17,23 +18,27 @@ export default class AddNewGroupScreen extends Component {
         }
     }
     handleClick = () => {
-
-        return fetch('http://3.93.95.228/group', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: {
-                name: "test-group-name",
-                idToken: 'test-id-token'
-            }
-        })
-            .then(response => {
+        // get the current token
+        firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+        .then(function(idToken) {
+            console.log(idToken);
+            fetch('http://3.93.95.228/group', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'name': 'test-group-name',
+                    'idToken': idToken,
+                })
+            }).then(response => {
                 console.log(response);
-            })
-            .catch(error => {
-                // console.error(error);
+            }).catch(error => {
+                console.log(error);
             });
+        }).catch(function(error) {
+
+        });
     }
 
     render() {
