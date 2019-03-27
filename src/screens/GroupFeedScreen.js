@@ -28,7 +28,7 @@ export default class GroupFeedScreen extends Component {
                 {
                     id:2,
                     name: 'MJ Park',
-                    chore: 'do something',
+                    chore: 'get the trash out',
                     points: 200,
                     likes: 30
                 },
@@ -49,7 +49,7 @@ export default class GroupFeedScreen extends Component {
                 {
                     id: 5,
                     name: 'MJ',
-                    chore: 'get some sleep',
+                    chore: 'get milk',
                     points: 100,
                     likes: 100
                 }

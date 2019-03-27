@@ -21,7 +21,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     {
         'Group\ Feed': GroupFeedScreen,
         'All\ Groups':AllGroupsScreen, 
-        'New': AddNewGroupScreen
+        // 'New': AddNewGroupScreen
     },
     {
         tabBarOptions: {

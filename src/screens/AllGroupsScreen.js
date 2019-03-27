@@ -26,7 +26,13 @@ export default class AllGroupsScreen extends Component {
                     name: '2019 Crecine roommates',
                     roommates: ['mj', 'michael', 'kevin', 'jessica']
                 },
-            ]
+                {
+                    id: 1,
+                    name: 'Best Roommats',
+                    roommates: ['mj', 'michael', 'kevin', 'jessica']
+                },
+            ],
+            selected: -1
         };
     }
 
