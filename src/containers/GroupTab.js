@@ -11,13 +11,8 @@ import AddNewGroupScreen from '../screens/AddNewGroupScreen';
 import AllGroupsScreen from '../screens/AllGroupsScreen';
 import Globals from '../constants/Globals';
 
-export default class GroupTab extends Component {
-    render() {
-        return <AppContainer />;
-    }
-}
 
-const TabNavigator = createMaterialTopTabNavigator(
+export default TabNavigator = createMaterialTopTabNavigator(
     {
         'Group\ Feed': GroupFeedScreen,
         'All\ Groups':AllGroupsScreen,
@@ -40,5 +35,3 @@ const TabNavigator = createMaterialTopTabNavigator(
         backgroundColor: '#f0edf6',
     }
 );
-
-const AppContainer = createAppContainer(TabNavigator);

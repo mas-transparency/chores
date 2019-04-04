@@ -16,13 +16,7 @@ import Globals from '../constants/Globals';
 // This Screen refers to the 'Tasks' screen
 // it contains 'All Chores' , ' My Chores' and 'Add New'
 
-export default class TaskTab extends React.Component {
-    render() {
-        return <TopTabContainer />;
-    }
-}
-
-const TabNavigator = createMaterialTopTabNavigator(
+export default TabNavigator = createMaterialTopTabNavigator(
     {
         'My\ Chores': {
             screen: MyChoresScreen
@@ -47,5 +41,3 @@ const TabNavigator = createMaterialTopTabNavigator(
         backgroundColor: '#f0edf6'
     }
 );
-
-const TopTabContainer = createAppContainer(TabNavigator);
