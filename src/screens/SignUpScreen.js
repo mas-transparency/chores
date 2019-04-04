@@ -27,7 +27,7 @@ export default class SignUpScreen extends Component {
                 // update user info here
                 user.updateProfile({ displayName: this.state.name }).then(
                     () => {
-                        this.props.navigation.navigate('Main');
+                        this.props.navigation.navigate('Login');
                     }
                 );
             })
