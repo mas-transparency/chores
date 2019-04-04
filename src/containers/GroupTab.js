@@ -7,7 +7,6 @@ import {
 } from 'react-navigation';
 
 import GroupFeedScreen from '../screens/GroupFeedScreen';
-import AddNewGroupScreen from '../screens/AddNewGroupScreen';
 import AllGroupsScreen from '../screens/AllGroupsScreen';
 import Globals from '../constants/Globals';
 
@@ -16,7 +15,6 @@ export default TabNavigator = createMaterialTopTabNavigator(
     {
         'Group\ Feed': GroupFeedScreen,
         'All\ Groups':AllGroupsScreen,
-        'AddNewGroup': AddNewGroupScreen
     },
     {
         tabBarOptions: {
