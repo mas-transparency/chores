@@ -29,7 +29,7 @@ const TabNavigator = createBottomTabNavigator(
                 )
             }
         },
-        Task: {
+        Tasks: {
             screen: TaskTab,
             navigationOptions: {
                 tabBarIcon: () => (
@@ -53,7 +53,7 @@ const TabNavigator = createBottomTabNavigator(
                 )
             }
         },
-        Setting: {
+        Settings: {
             screen: SettingTab,
             navigationOptions: {
                 tabBarIcon: () => (
@@ -134,10 +134,10 @@ export default class Main extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
+        backgroundColor: '#fff',
         justifyContent: 'center'
     },
     icon: {
-        color: Globals.COLOR.grey
+        color: '#010101',
     }
 });

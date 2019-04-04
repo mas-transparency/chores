@@ -28,7 +28,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Globals.COLOR.backgroundColor,
+        backgroundColor: '#fff',
         justifyContent: 'center'
     },
     icon: {
@@ -41,7 +41,6 @@ const AppNavigator = createSwitchNavigator(
         Login: LoginScreen,
         Main: Main,
         SignUp: SignUpScreen,
-        // AddNewGroup: AddNewGroupScreen
     },
     {
         initialRouteName: 'Login'

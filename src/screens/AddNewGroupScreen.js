@@ -19,30 +19,6 @@ export default class AddNewGroupScreen extends Component {
         }
     }
 
-    // createNewGroup = () => {
-    //     // get the current token
-    //     firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
-    //     .then(function(idToken) {
-    //         fetch('http://3.93.95.228/group', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({
-    //                 'name': this.state.name,
-    //                 'idToken': idToken,
-    //             })
-    //         }).then(response => {
-    //             consol.log("popasodpfoapaaa");
-    //             console.log(response);
-    //         }).catch(error => {
-    //             console.log(error);
-    //         });
-    //     }).catch(function(error) {
-
-    //     });
-    // }
-
     createNewGroup = () => {
         token = null;
         name = this.state.name;
