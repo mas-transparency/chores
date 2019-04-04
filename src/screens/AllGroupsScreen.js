@@ -78,21 +78,19 @@ export default class AllGroupsScreen extends Component {
 
     renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
-            <TouchableOpacity key={index}>
-                <ListItem
-                    onPress={() => this._displayGroupInfo(group.id)}
-                    title={group.name}
-                    subtitle={`${
-                        group['members'] ? group.members.length : 0
-                    } members`}
-                    rightTitle=">"
-                    containerStyle={
-                        this.state.selected == group.id
-                            ? styles.feedCardSelected
-                            : styles.feedCard
-                    }
-                />
-            </TouchableOpacity>
+            <ListItem
+                onPress={() => this._displayGroupInfo(group.id)}
+                title={group.name}
+                subtitle={`${
+                    group['members'] ? group.members.length : 0
+                } members`}
+                rightTitle=">"
+                containerStyle={
+                    this.state.selected == group.id
+                        ? styles.feedCardSelected
+                        : styles.feedCard
+                }
+            />
         ));
         return groups;
     };
@@ -166,8 +164,13 @@ export default class AllGroupsScreen extends Component {
         console.log(this.state.selected);
         return (
             <View style={styles.container}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Your Groups</Text>
+                </View>
                 <View style={styles.userGroupsContainer}>
-                    {this.renderGroups()}
+                    <ScrollView style={styles.container}>
+                        {this.renderGroups()}
+                    </ScrollView>
                 </View>
                 <View style={styles.buttonContainer}>
                     <Button
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
     userGroupsContainer: {
         flex: 3,
         marginTop: 10,
-        alignContent: 'space-between'
+        // alignContent: 'space-between'
     },
     buttonContainer: {
         flex: 1
@@ -208,12 +211,18 @@ const styles = StyleSheet.create({
         backgroundColor: Globals.COLOR.primaryColor
     },
     feedCard: {
-        backgroundColor: Globals.COLOR.secondaryColor,
-        marginBottom: 10
-        // marginHorizontal: 10,
+        // backgroundColor: Globals.COLOR.secondaryColor,
+        // marginBottom: 10
     },
     feedCardSelected: {
-        backgroundColor: Globals.COLOR.primaryColor,
-        marginBottom: 10
-    }
+        // backgroundColor: Globals.COLOR.primaryColor,
+        // marginBottom: 10
+    },
+    title: {
+        marginTop: 15,
+        marginLeft: 15,
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: Globals.FONTSIZE.medium
+    },
 });

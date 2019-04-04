@@ -16,6 +16,7 @@ import {
 
 import Globals from '../constants/Globals';
 
+import AllGroupsScreen from '../screens/AllGroupsScreen';
 import AddNewGroupScreen from '../screens/AddNewGroupScreen';
 
 export default class SettingTab extends Component {
@@ -36,10 +37,9 @@ class HomeScreen extends Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                
                 <View style={styles.cardsContainer}>
                     <ListItem
-                        onPress={() => this.props.navigation.navigate('AddNewGroupScreen')}
+                        onPress={() => this.props.navigation.navigate('AllGroupsScreen')}
                         title='Groups'
                         rightTitle='>'
                         // onPress={() => {this._changeView()}
@@ -48,8 +48,6 @@ class HomeScreen extends Component {
                         title='Notifications'
                         rightTitle='>'
                     />
-
-                    
                 </View>
             </ScrollView>
         );
@@ -68,6 +66,12 @@ const TabNavigator = createMaterialTopTabNavigator(
                 },
                 AddNewGroupScreen: {
                     screen: AddNewGroupScreen,
+                    navigationOptions: {
+                        header: null 
+                    }
+                },
+                AllGroupsScreen: {
+                    screen: AllGroupsScreen,
                     navigationOptions: {
                         header: null 
                     }
