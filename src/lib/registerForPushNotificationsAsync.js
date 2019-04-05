@@ -32,7 +32,7 @@ export async function registerForPushNotificationsAsync(user) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'idToken': token,
+      'deviceToken': token,
       'uid': user.uid
     }),
   });;
