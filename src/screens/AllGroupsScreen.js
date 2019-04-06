@@ -159,10 +159,9 @@ export default class AllGroupsScreen extends Component {
                         style={styles.button}>
                     </ListItem>
                 </View>
+
                 
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Your Groups</Text>
-                </View>
+                <Text style={styles.title}>Your Groups</Text>
                 <View style={styles.userGroupsContainer}>
                     <ScrollView style={styles.container}>
                         {this._renderGroups()}
