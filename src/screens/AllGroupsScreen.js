@@ -64,23 +64,19 @@ export default class AllGroupsScreen extends Component {
     _renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
             <ListItem
+                key={index}
                 onPress={() => this._displayGroupInfo(group.id)}
                 title={group.name}
                 subtitle={`${
                     group['members'] ? group.members.length : 0
                 } members`}
                 rightTitle=">"
-                containerStyle={
-                    this.state.selected == group.id
-                        ? styles.feedCardSelected
-                        : styles.feedCard
-                }
             />
         ));
         return groups;
     };
 
-    createNewGroup = () => {
+    _createNewGroup = () => {
         token = null;
         name = this.state.name;
         props = this.props;
@@ -152,6 +148,7 @@ export default class AllGroupsScreen extends Component {
                 <View style={styles.buttonContainer}>
                     <ListItem
                         title='Refresh'
+                        onPress={this._createNewGroup}
                         style={styles.button}>
                     </ListItem>
                     <ListItem onPress={() => this.props.navigation.navigate('AddNewGroupScreen')}
@@ -187,19 +184,10 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%',
-        textAlign: 'left',
         borderRadius: 0,
         borderWidth: 0.5,
         borderColor: '#000',
         borderTopColor: '#fff',
-    },
-    feedCard: {
-        // backgroundColor: Globals.COLOR.secondaryColor,
-        // marginBottom: 10
-    },
-    feedCardSelected: {
-        // backgroundColor: Globals.COLOR.primaryColor,
-        // marginBottom: 10
     },
     title: {
         marginTop: 20,
