@@ -4,6 +4,7 @@ import {
     Text,
     View,
     TouchableOpacity,
+    TouchableHighlight,
     ScrollView
 } from 'react-native';
 import {
@@ -20,23 +21,7 @@ export default class AllGroupsScreen extends Component {
         super(props);
         this.state = {
             // FIXME: dummy groups for now
-            groups: [
-                {
-                    id: 0,
-                    name: '2019 Crecine roommates',
-                    roommates: ['mj', 'michael', 'kevin', 'jessica']
-                },
-                {
-                    id: 1,
-                    name: 'Best Roommates',
-                    roommates: ['mj', 'michael', 'kevin', 'jessica']
-                },
-                {
-                    id: 2,
-                    name: 'THE THE THE BEST ',
-                    roommates: ['mj', 'michael', 'kevin', 'jessica']
-                }
-            ],
+            groups: [],
             selected: -1
         };
     }
@@ -76,7 +61,7 @@ export default class AllGroupsScreen extends Component {
         // this.props.navigation.navigate('')
     };
 
-    renderGroups = () => {
+    _renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
             <ListItem
                 onPress={() => this._displayGroupInfo(group.id)}
@@ -164,26 +149,24 @@ export default class AllGroupsScreen extends Component {
         console.log(this.state.selected);
         return (
             <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <ListItem
+                        title='Refresh'
+                        style={styles.button}>
+                    </ListItem>
+                    <ListItem onPress={() => this.props.navigation.navigate('AddNewGroupScreen')}
+                        title='Start group'
+                        style={styles.button}>
+                    </ListItem>
+                </View>
+                
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Your Groups</Text>
                 </View>
                 <View style={styles.userGroupsContainer}>
                     <ScrollView style={styles.container}>
-                        {this.renderGroups()}
+                        {this._renderGroups()}
                     </ScrollView>
-                </View>
-                <View style={styles.buttonContainer}>
-                    <Button
-                        title="Refresh"
-                        containerStyle={styles.buttonContainerStyle}
-                        buttonStyle={styles.buttonStyle}
-                        onPress={this.createNewGroup}
-                    />
-                    <Button
-                        title="Join Existing Group"
-                        containerStyle={styles.buttonContainerStyle}
-                        buttonStyle={styles.buttonStyle}
-                    />
                 </View>
             </View>
         );
@@ -200,15 +183,16 @@ const styles = StyleSheet.create({
         // alignContent: 'space-between'
     },
     buttonContainer: {
-        flex: 1
+        width: '100%',
+        // flex: 1,
     },
-    buttonContainerStyle: {
-        paddingLeft: 100,
-        paddingRight: 100,
-        paddingBottom: 20
-    },
-    buttonStyle: {
-        backgroundColor: Globals.COLOR.primaryColor
+    button: {
+        width: '100%',
+        textAlign: 'left',
+        borderRadius: 0,
+        borderWidth: 0.5,
+        borderColor: '#000',
+        borderTopColor: '#fff',
     },
     feedCard: {
         // backgroundColor: Globals.COLOR.secondaryColor,
@@ -219,7 +203,7 @@ const styles = StyleSheet.create({
         // marginBottom: 10
     },
     title: {
-        marginTop: 15,
+        marginTop: 20,
         marginLeft: 15,
         color: '#000',
         fontWeight: 'bold',
