@@ -63,13 +63,14 @@ export default class AddNewGroupScreen extends Component {
                 </View>
                 <View style={styles.formContainer}>
                     <TextInput
+                        onChangeText={name => this.setState({ name })}
+                        value={this.state.name}
                         placeholder='Name your new group'
                         placeholderTextColor='#748494'
-                        value={this.state.name}
-                        onChangeText={name => this.setState({ name })}
-                        inputStyle={{ color: 'black' }}
                         textAlign='center'
+                        inputStyle={{ color: 'black' }}
                         style = {styles.input}
+                        autoFocus
                     />
                 </View>
             </View>
