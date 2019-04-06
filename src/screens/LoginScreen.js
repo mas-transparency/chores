@@ -4,6 +4,7 @@ import { Text, Input, Button } from 'react-native-elements';
 import firebase from 'firebase';
 
 
+import { registerForPushNotificationsAsync } from '../lib/registerForPushNotificationsAsync';
 import MyHeader from '../components/MyHeader';
 import Globals from '../constants/Globals';
 
@@ -21,6 +22,9 @@ export default class LoginScreen extends Component {
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(user => {
                 // TODO: set the user
+                return registerForPushNotificationsAsync(user.user)
+            }).then(response => {
+                console.log("here", response);
                 this.props.navigation.navigate('Main')
             })
             .catch(error => {
