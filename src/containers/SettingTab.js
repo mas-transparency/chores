@@ -64,14 +64,21 @@ const TabNavigator = createMaterialTopTabNavigator(
                         header: null 
                     }
                 },
-                AddNewGroupScreen: {
-                    screen: AddNewGroupScreen,
-                    navigationOptions: {
-                        header: null 
-                    }
-                },
                 AllGroupsScreen: {
-                    screen: AllGroupsScreen,
+                    screen: createStackNavigator({
+                        AllGroupsScreen: {
+                            screen: AllGroupsScreen,
+                            navigationOptions: {
+                                header: null 
+                            }
+                        },
+                        AddNewGroupScreen: {
+                            screen: AddNewGroupScreen,
+                            navigationOptions: {
+                                header: null 
+                            }
+                        },
+                    }), 
                     navigationOptions: {
                         header: null 
                     }

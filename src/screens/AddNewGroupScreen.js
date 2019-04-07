@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { TextInput } from 'react-native';
+import { Button, ListItem } from 'react-native-elements';
 import firebase from 'firebase';
 import Globals from '../constants/Globals';
 
@@ -19,7 +20,7 @@ export default class AddNewGroupScreen extends Component {
         }
     }
 
-    createNewGroup = () => {
+    _createNewGroup = () => {
         token = null;
         name = this.state.name;
         props = this.props;
@@ -51,22 +52,25 @@ export default class AddNewGroupScreen extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Create New Group</Text>
+                    <Text style={styles.title}>New Group</Text>
+                    <View style={styles.nextButton}>
+                        <Button
+                            onPress={this._createNewGroup}
+                            title='Next'
+                            type='clear'
+                            disabled={!this.state.name}/>
+                    </View>
                 </View>
                 <View style={styles.formContainer}>
-                    <Input
-                        placeholder="Group Name (*)"
-                        inputStyle={{ color: 'white' }}
-                        labelStyle={{ color: 'white' }}
-                        label="Group Name (*)"
-                        value={this.state.name}
+                    <TextInput
                         onChangeText={name => this.setState({ name })}
-                    />
-                    <Button
-                        title="Create New Group"
-                        containerStyle={styles.buttonContainerStyle}
-                        buttonStyle={styles.buttonStyle}
-                        onPress={this.createNewGroup}
+                        value={this.state.name}
+                        placeholder='Name your new group'
+                        placeholderTextColor='#748494'
+                        textAlign='center'
+                        inputStyle={{ color: 'black' }}
+                        style = {styles.input}
+                        autoFocus
                     />
                 </View>
             </View>
@@ -76,35 +80,34 @@ export default class AddNewGroupScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        // alignItems: 'center',
-        justifyContent: 'center'
+        height: '100%',
+        backgroundColor: '#f9f9f9',
     },
     titleContainer: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        marginTop: 20,
+        marginBottom: 30,
     },
     title: {
-        color: Globals.COLOR.secondaryColor,
-        fontSize: Globals.FONTSIZE.large
+        color: '#000',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: Globals.FONTSIZE.small,
     },
     formContainer: {
-        flex: 5,
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
     },
-    buttonStyle: {
-        backgroundColor: Globals.COLOR.primaryColor,
+    nextButton: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        paddingRight: 25,
+        marginTop: -30,
     },
-    buttonContainerStyle: {
-        paddingLeft: 100,
-        paddingRight: 100,
-        paddingBottom: 20
-    },
-    footerContainer: {
-        flex: 1,
-        maxHeight: 50
+    input: { 
+        width: '100%',
+        paddingVertical: 9,
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: '#eeeeee',
+        fontSize: Globals.FONTSIZE.small,
     }
 });
