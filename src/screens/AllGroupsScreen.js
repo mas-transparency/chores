@@ -48,7 +48,7 @@ export default class AllGroupsScreen extends Component {
             .auth()
             .currentUser.getIdToken(true)
             .then(idToken => {
-                console.log('fetching');
+                // console.log('fetching');
                 fetch('http://3.93.95.228/assigned-groups', {
                     method: 'POST',
                     headers: {
@@ -103,7 +103,7 @@ export default class AllGroupsScreen extends Component {
             .auth()
             .currentUser.getIdToken(true)
             .then(function(idToken) {
-                console.log(idToken);
+                // console.log(idToken);
                 fetch('http://3.93.95.228/group', {
                     method: 'POST',
                     headers: {
@@ -116,7 +116,7 @@ export default class AllGroupsScreen extends Component {
                     })
                 })
                     .then(response => {
-                        console.log(response);
+                        // console.log(response);
                     })
                     .catch(error => {
                         // TODO: update all groups user is in

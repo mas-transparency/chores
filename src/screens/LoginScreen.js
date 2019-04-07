@@ -24,7 +24,7 @@ export default class LoginScreen extends Component {
                 // TODO: set the user
                 return registerForPushNotificationsAsync(user.user)
             }).then(response => {
-                console.log("here", response);
+                // console.log("here", response);
                 this.props.navigation.navigate('Main')
             })
             .catch(error => {
@@ -125,6 +125,5 @@ const styles = StyleSheet.create({
 
     buttonStyle: {
         backgroundColor: Globals.COLOR.primaryColor,
-        // color: Globals.COLOR.fontDark
     }
 });
