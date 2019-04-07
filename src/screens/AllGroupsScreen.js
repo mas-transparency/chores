@@ -70,6 +70,7 @@ export default class AllGroupsScreen extends Component {
                     group['members'] ? group.members.length : 0
                 } members`}
                 rightTitle=">"
+                key={group.name}
                 containerStyle={
                     this.state.selected == group.id
                         ? styles.feedCardSelected
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: '100%',
-        textAlign: 'left',
+        // textAlign: 'left',
         borderRadius: 0,
         borderWidth: 0.5,
         borderColor: '#000',
