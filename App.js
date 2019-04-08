@@ -9,7 +9,6 @@ import {
 } from 'react-navigation';
 import DropdownAlert from 'react-native-dropdownalert';
 import { Notifications } from 'expo';
-import { registerForPushNotificationsAsync } from './src/lib/registerForPushNotificationsAsync';
 import firebase from 'firebase';
 
 // import Main from './Main';

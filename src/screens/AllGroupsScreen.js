@@ -33,7 +33,7 @@ export default class AllGroupsScreen extends Component {
             .auth()
             .currentUser.getIdToken(true)
             .then(idToken => {
-                console.log('fetching');
+                // console.log('fetching');
                 fetch('http://3.93.95.228/assigned-groups', {
                     method: 'POST',
                     headers: {
@@ -64,7 +64,7 @@ export default class AllGroupsScreen extends Component {
     _renderGroups = () => {
         const groups = this.state.groups.map((group, index) => (
             <ListItem
-                key={index}
+                key={group.name}
                 onPress={() => this._displayGroupInfo(group.id)}
                 title={group.name}
                 subtitle={`${
@@ -84,7 +84,7 @@ export default class AllGroupsScreen extends Component {
             .auth()
             .currentUser.getIdToken(true)
             .then(function(idToken) {
-                console.log(idToken);
+                // console.log(idToken);
                 fetch('http://3.93.95.228/group', {
                     method: 'POST',
                     headers: {
@@ -97,7 +97,7 @@ export default class AllGroupsScreen extends Component {
                     })
                 })
                     .then(response => {
-                        console.log(response);
+                        // console.log(response);
                     })
                     .catch(error => {
                         // TODO: update all groups user is in
