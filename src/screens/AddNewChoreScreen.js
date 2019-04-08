@@ -109,18 +109,21 @@ export default class AddNewChoreScreen extends React.Component {
                 break;
             }
         }
+
+        // TODO: ADD -- fetching group members to have it listed
     };
+    handleAssigned = value => {
+        // TODO: 
+    }
 
     render() {
         const groupNames = this.state.groups.map(item => {
             return { value: item.groupName };
         });
 
+        const users = [ {value: 'MJ'}, {value: 'Kevin'}, {value: 'Michael'}, {value: 'Jessica'}];
         return (
             <View style={styles.container}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>ADD NEW</Text>
-                </View>
                 <View style={styles.formContainer}>
                     <Input
                         // placeholder="Chore Name (*)"
@@ -156,6 +159,12 @@ export default class AddNewChoreScreen extends React.Component {
                         data={groupNames}
                         onChangeText={value => this.handleGroupSelect(value)}
                     />
+                    <Dropdown
+                        label="Select Person On Duty"
+                        containerStyle={styles.dropdownContainer}
+                        data={users}
+                        onChangeText={value => this.handleAssigned(value)}
+                    />
                     <Button
                         style={styles.button}
                         buttonStyle={styles.buttonStyle}
@@ -188,7 +197,9 @@ const styles = StyleSheet.create({
         flex: 7,
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'space-evenly'
+        justifyContent: 'space-evenly',
+        paddingLeft: 20,
+        paddingRight: 20,
     },
     dropdownContainer: {
         width: 300
