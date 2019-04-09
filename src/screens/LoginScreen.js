@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
         // flex: 1
     },
     labelStyle: {
-        color: Globals.COLOR.secondaryColor,
+        // color: Globals.COLOR.secondaryColor,
     },
     inputStyle: {
-        color: Globals.COLOR.secondaryColor
+        // color: Globals.COLOR.secondaryColor
     },
     inputContainerStyle: {
         paddingLeft: 50,
