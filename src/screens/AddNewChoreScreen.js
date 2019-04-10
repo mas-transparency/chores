@@ -22,18 +22,19 @@ export default class AddNewChoreScreen extends React.Component {
             idToken: '', // assigned user id token
             groupID: '',
             groups: [],
-            assigned_to: ''
+            assigned_to: '',
+            users: []
         };
     }
 
     componentWillMount() {
         // get all groups and userID set
         const user = firebase.auth().currentUser;
-        console.log(user);
+        // console.log(user);
         user.getIdToken(true)
             .then(idToken => {
                 // fetch groups -- use fetched groups to have a picker menu for a group, then use the groupID to assign a chore
-                // console.log("id Token", idToken);
+                // console.log('id Token', idToken);
                 fetch('http://3.93.95.228/assigned-groups', {
                     method: 'POST',
                     headers: {
@@ -43,9 +44,12 @@ export default class AddNewChoreScreen extends React.Component {
                         idToken: idToken
                     })
                 })
+                    .catch(error => {
+                        console.log(error);
+                    })
                     .then(response => response.json())
                     .then(responseJson => {
-                        // console.log(responseJson)
+                        console.log('/assigned-group', responseJson);
                         // JSON for group info
                         const groups = Object.keys(responseJson).map(key => {
                             return {
@@ -62,6 +66,14 @@ export default class AddNewChoreScreen extends React.Component {
                 const { code, message } = error;
                 console.log(message);
             });
+
+        fetch('http://3.93.95.228/users?groupID=3lwsLswKyaYAaHy3VtNB', {
+            method: 'GET'
+        })
+            .then(response => {
+                this.setState({ users: response });
+            })
+            .catch(error => console.log(error));
     }
 
     handleSubmit = () => {
@@ -82,7 +94,9 @@ export default class AddNewChoreScreen extends React.Component {
                     num_chore_points: this.state.num_chore_points,
                     duration: this.state.duration,
                     idToken: idToken,
-                    groupID: this.state.groupID
+                    // FIXME: fix this later
+                    // groupID: this.state.groupID
+                    groupID: '3lwsLswKyaYAaHy3VtNB'
                 })
             })
                 .then(response => {
@@ -100,46 +114,15 @@ export default class AddNewChoreScreen extends React.Component {
         });
     };
 
-    handleGroupSelect = value => {
-        /* TODO: implement
-        // console.log(value);
-        // iterate 'groups' and set groupID
-        let groupID = '';
-        for (const group of this.state.groups) {
-            // console.log(value, group);
-            if (group.groupName == value) {
-                this.setState({ groupID: group.groupID });
-                groupID = group.groupID;
-                break;
-            }
-        }
-
-        // TODO: ADD -- fetching group members to have it listed
-        const user = firebase.auth().currentUser;
-        console.log('groupID', groupID);
-        user.getIdToken(true).then(idToken => {
-            fetch(`http://3.93.95.228/users?groupID=${groupID}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(responseJson => {
-                    console.log(responseJson);
-                });
-        });
-        */
-    };
-    handleAssigned = value => {
+    handleAssign = value => {
         // TODO:
     };
 
     render() {
         // const groupNames = this.state.groups.map(item => {
-            // return { value: item.groupName };
+        // return { value: item.groupName };
         // });
-        const groupNames = [ {value: "Team 5"}, {value: "Best Roommates"}]
+        const groupNames = [{ value: 'Team 5' }, { value: 'Best Roommates' }];
 
         const users = [
             { value: 'MJ' },
@@ -147,6 +130,13 @@ export default class AddNewChoreScreen extends React.Component {
             { value: 'Michael' },
             { value: 'Jessica' }
         ];
+        // console.log(this.state.users);
+        // const users = this.state.users
+        //     ? this.state.users.map(item => {
+        //           return { value: item.username };
+        //       })
+        //     : {};
+
         return (
             <View style={styles.container}>
                 <View style={styles.formContainer}>
@@ -179,16 +169,10 @@ export default class AddNewChoreScreen extends React.Component {
                         keyboardType="numeric"
                     />
                     <Dropdown
-                        label="Select Group"
-                        containerStyle={styles.dropdownContainer}
-                        data={groupNames}
-                        onChangeText={value => this.handleGroupSelect(value)}
-                    />
-                    <Dropdown
                         label="Select Person On Duty"
                         containerStyle={styles.dropdownContainer}
                         data={users}
-                        onChangeText={value => this.handleAssigned(value)}
+                        onChangeText={value => this.handleAssign(value)}
                     />
                     <Button
                         style={styles.button}

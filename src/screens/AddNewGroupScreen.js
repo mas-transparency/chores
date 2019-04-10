@@ -34,6 +34,7 @@ export default class AddNewGroupScreen extends Component {
                 body: JSON.stringify({
                     'name': name,
                     'idToken': idToken,
+                    'username': 'sangyoon'
                 })
             }).then(response => {
                 console.log(response);

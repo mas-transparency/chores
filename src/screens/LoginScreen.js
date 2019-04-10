@@ -12,7 +12,7 @@ export default class LoginScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: 'test@test.com',
+            email: 'chore@gmail.com',
             password: 'password'
         }
     }

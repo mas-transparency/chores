@@ -32,7 +32,7 @@ export default class ChoresDashboard extends Component {
         this.setState({ refreshing: true });
 
         // TODO: should we hide this later?
-        fetch('http://3.93.95.228/chores?groupID=2SJMLt8czYtXnd4tNQnv')
+        fetch('http://3.93.95.228/chores?groupID=3lwsLswKyaYAaHy3VtNB')
             .then(response => response.json())
             .then(responseJson => {
                 const newChores = [];
