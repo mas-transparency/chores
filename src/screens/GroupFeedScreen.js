@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20
     },
     headerText: {
-        color: Globals.COLOR.secondaryColor,
+        // color: Globals.COLOR.secondaryColor,
         fontWeight: 'bold',
         fontSize: Globals.FONTSIZE.medium
     },

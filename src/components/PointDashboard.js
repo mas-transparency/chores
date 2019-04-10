@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     dashboardText: {
-        color: Globals.COLOR.secondaryColor,
+        // color: Globals.COLOR.secondaryColor,
         fontSize: Globals.FONTSIZE.large
     },
     dashboardNumber: {

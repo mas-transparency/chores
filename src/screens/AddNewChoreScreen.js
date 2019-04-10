@@ -17,8 +17,8 @@ export default class AddNewChoreScreen extends React.Component {
             // TODO: only name and reward is customizable now
             name: '',
             reward: '',
-            num_chore_points: '1',  // default value = 1
-            duration: '1',  // default duration = 1
+            num_chore_points: '1', // default value = 1
+            duration: '1', // default duration = 1
             idToken: '', // assigned user id token
             groupID: '',
             groups: [],
@@ -29,6 +29,7 @@ export default class AddNewChoreScreen extends React.Component {
     componentWillMount() {
         // get all groups and userID set
         const user = firebase.auth().currentUser;
+        console.log(user);
         user.getIdToken(true)
             .then(idToken => {
                 // fetch groups -- use fetched groups to have a picker menu for a group, then use the groupID to assign a chore
@@ -94,34 +95,58 @@ export default class AddNewChoreScreen extends React.Component {
                     });
                 })
                 .catch(error => {
-                    // console.error(error);
+                    console.error(error);
                 });
         });
     };
 
     handleGroupSelect = value => {
+        /* TODO: implement
         // console.log(value);
         // iterate 'groups' and set groupID
+        let groupID = '';
         for (const group of this.state.groups) {
-            console.log(value, group);
+            // console.log(value, group);
             if (group.groupName == value) {
                 this.setState({ groupID: group.groupID });
+                groupID = group.groupID;
                 break;
             }
         }
 
         // TODO: ADD -- fetching group members to have it listed
+        const user = firebase.auth().currentUser;
+        console.log('groupID', groupID);
+        user.getIdToken(true).then(idToken => {
+            fetch(`http://3.93.95.228/users?groupID=${groupID}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson);
+                });
+        });
+        */
     };
     handleAssigned = value => {
-        // TODO: 
-    }
+        // TODO:
+    };
 
     render() {
-        const groupNames = this.state.groups.map(item => {
-            return { value: item.groupName };
-        });
+        // const groupNames = this.state.groups.map(item => {
+            // return { value: item.groupName };
+        // });
+        const groupNames = [ {value: "Team 5"}, {value: "Best Roommates"}]
 
-        const users = [ {value: 'MJ'}, {value: 'Kevin'}, {value: 'Michael'}, {value: 'Jessica'}];
+        const users = [
+            { value: 'MJ' },
+            { value: 'Kevin' },
+            { value: 'Michael' },
+            { value: 'Jessica' }
+        ];
         return (
             <View style={styles.container}>
                 <View style={styles.formContainer}>
@@ -199,7 +224,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-evenly',
         paddingLeft: 20,
-        paddingRight: 20,
+        paddingRight: 20
     },
     dropdownContainer: {
         width: 300
