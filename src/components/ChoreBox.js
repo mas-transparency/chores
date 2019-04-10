@@ -32,6 +32,7 @@ export default class ChoreBox extends Component {
                   <CheckBox
                       checked={this.state.checked}
                       size={43}
+                      onPress={() => this.setState({checked: !this.state.checked})}
                   />
                   <ListItem
                       title={this.props.choreName}
