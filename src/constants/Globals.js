@@ -9,7 +9,7 @@ export default {
         fontBright: '#e9eaec',
     },
     FONTSIZE: {
-        extraLarge: 50,
+        extraLarge: 60,
         large: 28,
         medium: 18,
         small: 15

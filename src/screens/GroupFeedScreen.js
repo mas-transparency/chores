@@ -57,12 +57,16 @@ export default class GroupFeedScreen extends Component {
         };
     }
 
+    componentWillMount() {
+        // TODO: fetch group feed data
+    }
+
     renderGroupFeeds = () => {
         const groupFeeds = this.state.members.map((item, i) => (
             <TouchableOpacity key={item.id}>
                 <ListItem
-                    title={item.name}
-                    subtitle={item.chore}
+                    title={item.chore}
+                    subtitle={item.name}
                     containerStyle={styles.feedCard}
                     // titleStyle={{ color: Globals.COLOR.primaryColor }}
                     // subtitleStyle={{ color: Globals.COLOR.primaryColor }}

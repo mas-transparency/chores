@@ -37,18 +37,6 @@ export default createBottomTabNavigator(
               )
           }
       },
-      Stat: {
-          screen: StatTab,
-          navigationOptions: {
-              tabBarIcon: () => (
-                  <Icon
-                      type="font-awesome"
-                      name="columns"
-                      iconStyle={styles.icon}
-                  />
-              )
-          }
-      },
       Setting: {
           screen: SettingTab,
           navigationOptions: {

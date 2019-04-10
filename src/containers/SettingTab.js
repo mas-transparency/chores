@@ -19,11 +19,6 @@ import Globals from '../constants/Globals';
 import AllGroupsScreen from '../screens/AllGroupsScreen';
 import AddNewGroupScreen from '../screens/AddNewGroupScreen';
 
-export default class SettingTab extends Component {
-    render() {
-        return <AppContainer />;
-    }
-}
 
 class HomeScreen extends Component {
     constructor(props) {
@@ -54,7 +49,7 @@ class HomeScreen extends Component {
     }
 }
 
-const TabNavigator = createMaterialTopTabNavigator(
+export default TabNavigator = createMaterialTopTabNavigator(
     {
         Setting: {
             screen: createStackNavigator({
@@ -89,10 +84,12 @@ const TabNavigator = createMaterialTopTabNavigator(
     {
         initialRouteName: 'Setting',
         tabBarOptions: {
-            activeTintColor: '#000',
-            inactiveTintColor: '#000',
+            // activeTintColor: '#000',
+            // inactiveTintColor: '#000',
             style: {
-                backgroundColor: '#fbfbfb',
+                // backgroundColor: '#fbfbfb',
+                backgroundColor: Globals.COLOR.backgroundColor,
+                color: Globals.COLOR.primaryColor
             },
             tabStyle: {
                 height: 80,
