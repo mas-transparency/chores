@@ -1,58 +1,67 @@
-import React, { Component } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import Globals from "../constants/Globals";
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Globals from '../constants/Globals';
+
+import { CheckBox, ListItem } from 'react-native-elements';
 
 export default class ChoreBox extends Component {
   constructor(props) {
-    super(props);
+      super(props);
+      this.state = {
+          checked: false,
+      };
   }
 
   handleClick = () => {};
 
+  _onPressChore = () => {
+      console.log("898a9s9s888")
+      this.setState({ checked: !this.state.checked });
+  }
+
   // TODO: use 'props.chores' to iterate over chores
   render() {
-    const color = Globals.COLOR.secondaryColor;
-    return (
-      <View style={styles.container}>
-        <View style={styles.nameContainer}>
-          <Text style={styles.name}>{this.props.choreName}</Text>
-        </View>
-        <View
-          style={{
-            ...styles.pointsContainer,
-            backgroundColor: color
-          }}
-        >
-          <Text style={styles.point}>{this.props.chorePoints}</Text>
-        </View>
-      </View>
-    );
+      return (
+          <TouchableOpacity
+              key={this.props.choreID}
+              onPress={this._onPressChore}
+          >
+              <View
+                  style={{ flexDirection: 'row', borderWidth: 0.5, borderColor: '#000', }}
+                  >
+                  <CheckBox
+                      checked={this.state.checked}
+                      size={43}
+                  />
+                  <ListItem
+                      title={this.props.choreName}
+                      subtitle={`${this.props.chorePoints} points`}
+                      style={styles.button}
+                  />
+              </View>
+          </TouchableOpacity>
+      );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 100,
-    height: 150,
-    marginBottom: 20,
-    marginHorizontal: 10
+      flex: 1
   },
-  nameContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-around"
+  userGroupsContainer: {
+      flex: 3,
+      marginTop: 10,
   },
-  pointsContainer: {
-    flex: 3,
-    alignItems: "center",
-    justifyContent: "space-evenly"
+  button: {
+      width: '100%',
   },
-  name: {
-    fontSize: Globals.FONTSIZE.medium,
-    color: Globals.COLOR.secondaryColor
+  title: {
+      marginTop: 20,
+      marginLeft: 15,
+      color: '#000',
+      fontWeight: 'bold',
+      fontSize: Globals.FONTSIZE.medium
   },
-  point: {
-    fontSize: Globals.FONTSIZE.large,
-    color: Globals.COLOR.backgroundColor
-  }
 });
+
+

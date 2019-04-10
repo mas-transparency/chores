@@ -8,7 +8,7 @@ import {
     RefreshControl
 } from 'react-native';
 
-import { Overlay } from 'react-native-elements';
+import { ListItem, CheckBox } from 'react-native-elements';
 
 import Global from '../constants/Globals';
 import ChoreBox from './ChoreBox';
@@ -20,7 +20,7 @@ export default class ChoresDashboard extends Component {
         this.state = {
             chores: [],
             refreshing: false,
-            overlayVisible: false
+            overlayVisible: false,
         };
     }
 
@@ -49,34 +49,25 @@ export default class ChoresDashboard extends Component {
             });
     };
 
-    _onPressChore(id) {
-        // const chores = this.state.chores.filter(chore => chore.id != id);
-        // this.setState({ chores });
-    }
-
     _onLongPressChore = id => {
-        this.setState({ overlayVisible: true });
+        // this.setState({ overlayVisible: true });
     };
 
     renderChores = () => {
-        // console.log(this.props.chores)
-        // console.log(this.props.chores.length)
         const chores = this.state.chores.map((chore, index) => {
             return (
                 <TouchableOpacity
                     key={chore.id}
-                    onPress={() => this._onPressChore(chore.id)}
-                    onLongPress={() => this._onLongPressChore(chore.id)}
-                    // underlayColor={Globals.COLOR.grey}
                 >
                     <ChoreBox
+                        choreID={chore.id}
                         choreName={chore.name}
                         chorePoints={chore.num_chore_points}
                     />
                 </TouchableOpacity>
             );
         });
-        return <View style={styles.choreContainer}>{chores}</View>;
+        return <View>{chores}</View>;
     };
 
     renderOverlay = () => {
@@ -103,8 +94,8 @@ export default class ChoresDashboard extends Component {
                 }
                 style={styles.container}
             >
-                {this.renderOverlay()}
                 {this.renderChores()}
+                
             </ScrollView>
         );
     }
@@ -114,10 +105,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    choreContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        flexWrap: 'wrap'
-    }
+    userGroupsContainer: {
+        flex: 3,
+        marginTop: 10,
+        // alignContent: 'space-between'
+    },
+    button: {
+        width: '100%',
+    },
+    title: {
+        marginTop: 20,
+        marginLeft: 15,
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: Globals.FONTSIZE.medium
+    },
 });
