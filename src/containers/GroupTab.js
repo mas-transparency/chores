@@ -7,7 +7,6 @@ import {
 } from 'react-navigation';
 
 import GroupFeedScreen from '../screens/GroupFeedScreen';
-import AllGroupsScreen from '../screens/AllGroupsScreen';
 import Globals from '../constants/Globals';
 
 

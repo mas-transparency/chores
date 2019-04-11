@@ -16,69 +16,36 @@ import {
 
 import Globals from '../constants/Globals';
 
-import AllGroupsScreen from '../screens/AllGroupsScreen';
+import SettingGroupScreen from '../screens/SettingGroupScreen';
+import JoinGroupScreen from '../screens/JoinGroupScreen';
 import AddNewGroupScreen from '../screens/AddNewGroupScreen';
 
-
-class HomeScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // FIXME: dummy groups for now
-            selected: -1
-        };
-    }
-
-    render() {
-        return (
-            <ScrollView style={styles.container}>
-                <View style={styles.cardsContainer}>
-                    <ListItem
-                        onPress={() => this.props.navigation.navigate('AllGroupsScreen')}
-                        title='Groups'
-                        rightTitle='>'
-                        // onPress={() => {this._changeView()}
-                    />
-                    <ListItem
-                        title='Notifications'
-                        rightTitle='>'
-                    />
-                </View>
-            </ScrollView>
-        );
-    }
-}
-
-export default TabNavigator = createMaterialTopTabNavigator(
+export default (TabNavigator = createMaterialTopTabNavigator(
     {
         Setting: {
             screen: createStackNavigator({
-                HomeScreen: {
-                    screen: HomeScreen,
+                SettingGroupScreen: {
+                    screen: SettingGroupScreen,
                     navigationOptions: {
-                        header: null 
+                        header: null
                     }
                 },
-                AllGroupsScreen: {
-                    screen: createStackNavigator({
-                        AllGroupsScreen: {
-                            screen: AllGroupsScreen,
-                            navigationOptions: {
-                                header: null 
-                            }
-                        },
-                        AddNewGroupScreen: {
-                            screen: AddNewGroupScreen,
-                            navigationOptions: {
-                                header: null 
-                            }
-                        },
-                    }), 
+                AddNewGroupScreen: {
+                    screen: AddNewGroupScreen,
                     navigationOptions: {
-                        header: null 
+                        header: null
+                    }
+                },
+                JoinGroupScreen: {
+                    screen: JoinGroupScreen,
+                    navigationOptions: {
+                        header: null
                     }
                 }
-            })
+            }),
+            navigationOptions: {
+                header: null
+            }
         }
     },
     {
@@ -94,35 +61,8 @@ export default TabNavigator = createMaterialTopTabNavigator(
             tabStyle: {
                 height: 80,
                 flexDirection: 'column',
-                justifyContent: 'flex-end',
+                justifyContent: 'flex-end'
             }
         }
-    },
-);
-
-const AppContainer = createAppContainer(TabNavigator);
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    headerContainer: {
-        // flex: 1,
-        // justifyContent: 'center',
-        // marginVertical: 20,
-        // paddingLeft: 20
-    },
-    headerText: {
-        // color: Globals.COLOR.secondaryColor,
-        // fontWeight: 'bold',
-        // fontSize: Globals.FONTSIZE.medium
-    },
-    cardsContainer: {
-        flex: 10,
-        alignContent: 'space-between'
-    },
-    feedCard: {
-        backgroundColor: '#fff',
-        marginBottom: 10,
-    },
-});
+    }
+));
