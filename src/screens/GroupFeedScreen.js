@@ -108,9 +108,9 @@ export default class GroupFeedScreen extends Component {
             // TODO: isCurUser is not hardcoded
             var isCurUser = memberInfo.name == 'Jessica'
             return (
-                <View style={styles.memberStatsContainer}>
+                <View key={memberInfo.name} style={styles.memberStatsContainer}>
                     <Text style={isCurUser ? styles.curUser : styles.memberName}>{isCurUser ? 'You' : memberInfo.name}</Text>
-                    <View key={memberInfo.name} style={styles.progressBarContainer}>
+                    <View style={styles.progressBarContainer}>
                         <Bar progress={progress} width={230} height={23} borderRadius={12} borderColor='#fff' color='#07cdff' unfilledColor='#dedede'/>
                         <Text style={isCurUser ? styles.curUser : styles.progressText}>{memberInfo.totalPoints} points</Text>
                     </View>    
