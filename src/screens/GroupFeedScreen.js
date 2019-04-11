@@ -94,6 +94,8 @@ export default class GroupFeedScreen extends Component {
     _renderMemberStats = () => {
         var feed = this.state.feed;
         var maxMemberPoints = 0;
+        feed.sort(function(a, b){return b.totalPoints - a.totalPoints});
+
         for (var i = 0; i < feed.length; i++) {
             memberPoints = feed[i].totalPoints;
             if (memberPoints > maxMemberPoints) {
