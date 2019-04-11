@@ -14,7 +14,6 @@ import Globals from '../constants/Globals';
 export default TabNavigator = createMaterialTopTabNavigator(
     {
         'Group\ Feed': GroupFeedScreen,
-        'All\ Groups':AllGroupsScreen,
     },
     {
         tabBarOptions: {
