@@ -126,8 +126,12 @@ export default class GroupFeedScreen extends Component {
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerText}>{this.state.groupName}</Text>
                 </View>
+                <Text style={styles.subheaderText}>Overview</Text>
                 {this._renderMemberStats()}
                 <View style={styles.cardsContainer}>
+                    <View style={styles.headerContainer}>
+                        <Text style={styles.headerText}>Recent Activity</Text>
+                    </View>
                     {this.renderGroupFeeds()}
                 </View>
             </ScrollView>
@@ -143,6 +147,16 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: 20,
         paddingLeft: 20
+    },
+    headerText: {
+        fontWeight: 'bold',
+        fontSize: Globals.FONTSIZE.medium,
+    },
+    subheaderText: {
+        marginHorizontal: 20,
+        marginBottom: 10,
+        fontWeight: 'bold',
+        fontSize: Globals.FONTSIZE.medium,
     },
     memberStatsContainer: {
         marginHorizontal: 20,
@@ -169,14 +183,12 @@ const styles = StyleSheet.create({
         color: '#737373',
         // fontSize: Globals.FONTSIZE.small,
     },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: Globals.FONTSIZE.medium
-    },
     cardsContainer: {
         marginTop: 15,
         flex: 10,
-        alignContent: 'space-between'
+        // alignContent: 'space-between',
+        borderWidth: 0.5,
+        borderColor: '#adadad',
     },
     feedCard: {
         backgroundColor: Globals.COLOR.secondaryColor,
