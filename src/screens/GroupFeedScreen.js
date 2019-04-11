@@ -7,6 +7,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { Bar } from 'react-native-progress';
 
 import Globals from '../constants/Globals';
 import Card from '../components/Card';
@@ -19,40 +20,53 @@ export default class GroupFeedScreen extends Component {
             groupName: '2019 Crecine roommates',
             members: [
                 {
-                    id: 1,
                     name: 'Jessica Pan',
                     chore: 'Clean it!',
                     points: 100,
                     likes: 100
                 },
                 {
-                    id:2,
                     name: 'MJ Park',
                     chore: 'get the trash out',
                     points: 200,
                     likes: 30
                 },
                 {
-                    id: 3,
                     name: 'Kevin',
                     chore: 'buy grocery',
                     points: 10,
                     likes: 0
                 },
                 {
-                    id: 4,
                     name: 'Michael',
                     chore: 'clean the room',
                     points: 100,
                     likes: 100
                 },
                 {
-                    id: 5,
-                    name: 'MJ',
+                    name: 'MJ Park',
                     chore: 'get milk',
                     points: 100,
                     likes: 100
                 }
+            ],
+            feed: [
+                {
+                    name: 'Jessica',
+                    totalPoints: 24,
+                },
+                {
+                    name: 'MJ Park',
+                    totalPoints: 29,
+                },
+                {
+                    name: 'Kevin',
+                    totalPoints: 19,
+                },
+                {
+                    name: 'Michael',
+                    totalPoints: 30,
+                },
             ]
         };
     }
@@ -63,7 +77,7 @@ export default class GroupFeedScreen extends Component {
 
     renderGroupFeeds = () => {
         const groupFeeds = this.state.members.map((item, i) => (
-            <TouchableOpacity key={item.id}>
+            <TouchableOpacity key={i}>
                 <ListItem
                     title={item.chore}
                     subtitle={item.name}
@@ -77,12 +91,40 @@ export default class GroupFeedScreen extends Component {
         return groupFeeds;
     };
 
+    _renderMemberStats = () => {
+        var feed = this.state.feed;
+        var maxMemberPoints = 0;
+        for (var i = 0; i < feed.length; i++) {
+            memberPoints = feed[i].totalPoints;
+            if (memberPoints > maxMemberPoints) {
+                maxMemberPoints = memberPoints;    
+            }
+        }
+
+        const displayMemberStats = feed.map((memberInfo, i) => {
+            var progress = memberInfo.totalPoints / maxMemberPoints;
+            // TODO: isCurUser is not hardcoded
+            var isCurUser = memberInfo.name == 'Jessica'
+            return (
+                <View style={styles.memberStatsContainer}>
+                    <Text style={isCurUser ? styles.curUser : styles.memberName}>{isCurUser ? 'You' : memberInfo.name}</Text>
+                    <View key={memberInfo.name} style={styles.progressBarContainer}>
+                        <Bar progress={progress} width={230} height={23} borderRadius={12} borderColor='#fff' color='#07cdff' unfilledColor='#dedede'/>
+                        <Text style={isCurUser ? styles.curUser : styles.progressText}>{memberInfo.totalPoints} points</Text>
+                    </View>    
+                </View>
+            )
+        });
+        return displayMemberStats;
+    }
+
     render() {
         return (
             <ScrollView style={styles.container}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.headerText}>{this.state.groupName}</Text>
                 </View>
+                {this._renderMemberStats()}
                 <View style={styles.cardsContainer}>
                     {this.renderGroupFeeds()}
                 </View>
@@ -100,12 +142,37 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         paddingLeft: 20
     },
+    memberStatsContainer: {
+        marginHorizontal: 20,
+        marginVertical: 3,
+    },
+    progressBarContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: 5,
+        marginBottom: 10,
+    },
+    memberName: {
+        marginHorizontal: 10,
+        color: '#686868',
+        // fontSize: Globals.FONTSIZE.small,
+    },
+    curUser: {
+        marginHorizontal: 10,
+        fontWeight: 'bold',
+    },
+    progressText: {
+        marginHorizontal: 10,
+        color: '#737373',
+        // fontSize: Globals.FONTSIZE.small,
+    },
     headerText: {
-        // color: Globals.COLOR.secondaryColor,
         fontWeight: 'bold',
         fontSize: Globals.FONTSIZE.medium
     },
     cardsContainer: {
+        marginTop: 15,
         flex: 10,
         alignContent: 'space-between'
     },
