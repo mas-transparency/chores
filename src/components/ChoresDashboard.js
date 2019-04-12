@@ -7,8 +7,8 @@ import {
     TouchableOpacity,
     RefreshControl
 } from 'react-native';
-
-import { ListItem, CheckBox } from 'react-native-elements';
+import { ListItem, CheckBox, Button } from 'react-native-elements';
+import firebase from 'firebase';
 
 import Global from '../constants/Globals';
 import ChoreBox from './ChoreBox';
@@ -20,7 +20,7 @@ export default class ChoresDashboard extends Component {
         this.state = {
             chores: [],
             refreshing: false,
-            overlayVisible: false,
+            overlayVisible: false
         };
     }
 
@@ -31,18 +31,27 @@ export default class ChoresDashboard extends Component {
     _onRefresh = () => {
         this.setState({ refreshing: true });
 
-        // TODO: should we hide this later?
-        fetch('http://3.93.95.228/chores?groupID=3lwsLswKyaYAaHy3VtNB')
-            .then(response => response.json())
-            .then(responseJson => {
-                const newChores = [];
-                for (const id in responseJson) {
-                    const chore = responseJson[id];
-                    const newChore = { ...chore, id };
-                    newChores.push(newChore);
-                }
-                // console.log(newChores)
-                this.setState({ chores: newChores });
+        const user = firebase.auth().currentUser;
+
+        fetch('http://3.93.95.228/assigned-chores', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                uid: user.uid
+            })
+        })
+            .then(res => res.json())
+            .then(result => {
+                let chores = Object.keys(result).map(key => {
+                    return {
+                        choreID: key,
+                        choreInfo: result[key]
+                    };
+                });
+
+                this.setState({ chores });
             })
             .then(() => {
                 this.setState({ refreshing: false });
@@ -50,19 +59,52 @@ export default class ChoresDashboard extends Component {
     };
 
     _onLongPressChore = id => {
+        // TODO: long press possibly show overlay display
         // this.setState({ overlayVisible: true });
     };
 
+    _onCompleteChore = checkedChoreID => {
+        console.log('called', checkedChoreID);
+        const updatedChores = this.state.chores.filter(chore => {
+            return chore.choreID != checkedChoreID;
+        });
+
+        fetch('http://3.93.95.228/chores/complete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                choreID: checkedChoreID
+            })
+        })
+            .then(res => console.log(res))
+            .then(() => {
+                this._onRefresh();
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
     renderChores = () => {
-        const chores = this.state.chores.map((chore, index) => {
+        // console.log(this.state.chores);
+        // only render incomplete chores
+        const incompleteChores = this.state.chores.filter(chore => {
+            return !chore.choreInfo.isDone;
+        });
+        if (incompleteChores.length < 1) {
+            return null;
+        }
+
+        const chores = incompleteChores.map((chore, index) => {
             return (
-                <TouchableOpacity
-                    key={chore.id}
-                >
+                <TouchableOpacity key={chore.choreID}>
                     <ChoreBox
-                        choreID={chore.id}
-                        choreName={chore.name}
-                        chorePoints={chore.num_chore_points}
+                        choreID={chore.choreID}
+                        choreName={chore.choreInfo.name}
+                        chorePoints={chore.choreInfo.num_chore_points}
+                        _onCompleteChore={this._onCompleteChore}
                     />
                 </TouchableOpacity>
             );
@@ -83,35 +125,54 @@ export default class ChoresDashboard extends Component {
 
     // TODO: use 'props.chores' to iterate over chores
     render() {
-        // console.log(this.props.chores)
         return (
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh}
+            <View style={styles.container}>
+                <View style={styles.choreContainer}>
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={this._onRefresh}
+                            />
+                        }
+                    >
+                        {this.renderChores()}
+                    </ScrollView>
+                </View>
+                <View style={styles.buttonContainer}>
+                    <Button
+                        title="Add New"
+                        containerStyle={styles.buttonContainerStyle}
+                        buttonStyle={styles.buttonStyle}
+                        onPress={() => this.props.navigation.navigate('Add\ New', {
+                            _onRefresh: this._onRefresh
+                        })}
                     />
-                }
-                style={styles.container}
-            >
-                {this.renderChores()}
-                
-            </ScrollView>
+                </View>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        // flexDirection: 'column',
+        // justifyContent: 'center'
     },
-    userGroupsContainer: {
-        flex: 3,
-        marginTop: 10,
-        // alignContent: 'space-between'
+    choreContainer: {
+        flex: 4,
     },
-    button: {
-        width: '100%',
+    buttonContainer: {
+        flex: 1,
+    },
+    buttonContainerStyle: {
+        paddingLeft: 100,
+        paddingRight: 100,
+        paddingBottom: 20
+    },
+    buttonStyle: {
+        backgroundColor: Globals.COLOR.primaryColor
     },
     title: {
         marginTop: 20,
@@ -119,5 +180,5 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
         fontSize: Globals.FONTSIZE.medium
-    },
+    }
 });

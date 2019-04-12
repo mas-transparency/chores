@@ -47,7 +47,6 @@ const AppNavigator = createSwitchNavigator(
         Login: LoginScreen,
         Main: Main,
         SignUp: SignUpScreen
-        // AddNewGroup: AddNewGroupScreen
     },
     {
         initialRouteName: 'Login'

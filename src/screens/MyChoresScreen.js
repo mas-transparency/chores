@@ -17,7 +17,9 @@ export default class MyChoresScreen extends React.Component {
                     <PointDashboard />
                 </View>
                 <View style={styles.chores}>
-                    <ChoresDashboard />
+                    <ChoresDashboard 
+                        navigation={this.props.navigation}
+                    />
                 </View>
             </View>
         );

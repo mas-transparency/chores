@@ -14,128 +14,165 @@ export default class AddNewChoreScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // TODO: only name and reward is customizable now
+            // fields required for creating a new chore
             name: '',
             reward: '',
             num_chore_points: '1', // default value = 1
-            duration: '1', // default duration = 1
-            idToken: '', // assigned user id token
-            groupID: '',
-            groups: [],
             assigned_to: '',
-            users: []
+            groupID: '',
+
+            // fields not required
+            groups: [],
+            users: [],
+            groupSelect: '',
+            userSelect: ''
         };
     }
 
-    componentWillMount() {
-        // get all groups and userID set
-        const user = firebase.auth().currentUser;
-        // console.log(user);
-        user.getIdToken(true)
-            .then(idToken => {
-                // fetch groups -- use fetched groups to have a picker menu for a group, then use the groupID to assign a chore
-                // console.log('id Token', idToken);
-                fetch('http://3.93.95.228/assigned-groups', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        idToken: idToken
-                    })
-                })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                    .then(response => response.json())
-                    .then(responseJson => {
-                        console.log('/assigned-group', responseJson);
-                        // JSON for group info
-                        const groups = Object.keys(responseJson).map(key => {
-                            return {
-                                groupID: key,
-                                groupName: responseJson[key].name
-                            };
-                        });
-                        // console.log(groups);
-                        this.setState({ groups: groups });
-                        // console.log(responseJson);
-                    });
-            })
-            .catch(error => {
-                const { code, message } = error;
-                console.log(message);
-            });
-
-        fetch('http://3.93.95.228/users?groupID=3lwsLswKyaYAaHy3VtNB', {
-            method: 'GET'
-        })
-            .then(response => {
-                this.setState({ users: response });
-            })
-            .catch(error => console.log(error));
+    componentDidMount() {
+        // get all group info
+        this._getMyGroups();
     }
 
-    handleSubmit = () => {
-        // console.log('will handle submit');
-        // console.log(JSON.stringify(this.state));
-        // console.log(user);
+    _getMyGroups = () => {
         const user = firebase.auth().currentUser;
 
-        user.getIdToken(true).then(idToken => {
-            fetch('http://3.93.95.228/chores', {
+        // fetches my groups
+        fetch('http://3.93.95.228/groups', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                const uid = firebase.auth().currentUser.uid;
+                // only includes the groups that the user is in
+                // groups = [ { groupName, groupID, members } ]
+
+                const groups = Object.keys(responseJson).map(key => {
+                    const group = responseJson[key];
+                    return {
+                        groupName: group.name,
+                        members: group.members,
+                        groupID: key
+                    };
+                });
+
+                // const groups = Object.values(responseJson).filter(group => {
+                //     return group.members.includes(uid);
+                // });
+                this.setState({ groups });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    handleSubmit = () => {
+        const user = firebase.auth().currentUser;
+
+        fetch('http://3.93.95.228/chores', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: this.state.name,
+                reward: this.state.reward,
+                num_chore_points: this.state.num_chore_points,
+                assigned_to: this.state.assigned_to,
+                groupID: this.state.groupID
+            })
+        })
+            .then(response => {
+                console.log(response);
+                this.setState({
+                    name: '',
+                    reward: '',
+                    num_chore_points: '',
+                    duration: ''
+                });
+            })
+            .then(() => {
+                const { state, setParams, navigate } = this.props.navigation;
+                const params = state.params || {};
+                const _onRefresh = params._onRefresh;
+                if (_onRefresh) {
+                    // FIXME: figure out other alternative
+                    _onRefresh();
+                }
+                this.props.navigation.navigate('My\ Chores')
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    handleUserSelect = username => {
+        // TODO:
+        let user = this.state.users.filter(user => {
+            return user.displayName == username;
+        });
+        if (!user) {
+            return;
+        }
+        user = user[0];
+
+        // set selected user info
+        this.setState({
+            userSelect: username,
+            assigned_to: user.uid
+        });
+    };
+
+    handleGroupSelect = groupName => {
+        // find the group with the 'value' and update 'users'
+        let group = this.state.groups.filter(group => {
+            return group.groupName == groupName;
+        });
+        if (!group) {
+            return;
+        }
+        group = group[0];
+
+        // set groupID
+        this.setState({
+            groupID: group.groupID,
+            users: [],
+            userSelect: '',
+            assigned_to: ''
+        });
+
+        let userFetches = group.members.map(uid => {
+            return fetch('http://3.93.95.228/profile', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    name: this.state.name,
-                    reward: this.state.reward,
-                    num_chore_points: this.state.num_chore_points,
-                    duration: this.state.duration,
-                    idToken: idToken,
-                    // FIXME: fix this later
-                    // groupID: this.state.groupID
-                    groupID: '3lwsLswKyaYAaHy3VtNB'
-                })
-            })
-                .then(response => {
-                    console.log(response);
-                    this.setState({
-                        name: '',
-                        reward: '',
-                        num_chore_points: '',
-                        duration: ''
-                    });
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+                body: JSON.stringify({ uid })
+            }).then(res => res.json());
+        });
+
+        Promise.all(userFetches).then(responses => {
+            // console.log(responses);
+            for (const res of responses) {
+                this.setState({ users: [...this.state.users, res] });
+            }
         });
     };
 
-    handleAssign = value => {
-        // TODO:
-    };
-
     render() {
-        // const groupNames = this.state.groups.map(item => {
-        // return { value: item.groupName };
-        // });
-        const groupNames = [{ value: 'Team 5' }, { value: 'Best Roommates' }];
+        const groups = this.state.groups
+            ? this.state.groups.map(group => {
+                  return { value: group.groupName };
+              })
+            : {};
 
-        const users = [
-            { value: 'MJ' },
-            { value: 'Kevin' },
-            { value: 'Michael' },
-            { value: 'Jessica' }
-        ];
-        // console.log(this.state.users);
-        // const users = this.state.users
-        //     ? this.state.users.map(item => {
-        //           return { value: item.username };
-        //       })
-        //     : {};
+        const users = this.state.users.map(user => {
+            return { value: user.displayName };
+        });
 
         return (
             <View style={styles.container}>
@@ -161,23 +198,23 @@ export default class AddNewChoreScreen extends React.Component {
                         }
                         keyboardType="numeric"
                     />
-                    <Input
-                        // placeholder="Duration (days)"
-                        label="Duration (# days)"
-                        value={this.state.duration}
-                        onChangeText={duration => this.setState({ duration })}
-                        keyboardType="numeric"
+                    <Dropdown
+                        label="Select Group"
+                        containerStyle={styles.dropdownContainer}
+                        data={groups}
+                        onChangeText={value => this.handleGroupSelect(value)}
                     />
                     <Dropdown
                         label="Select Person On Duty"
                         containerStyle={styles.dropdownContainer}
                         data={users}
-                        onChangeText={value => this.handleAssign(value)}
+                        onChangeText={value => this.handleUserSelect(value)}
+                        value={this.state.userSelect}
                     />
                     <Button
                         style={styles.button}
                         buttonStyle={styles.buttonStyle}
-                        title="ADD"
+                        title="Add"
                         size={40}
                         onPress={this.handleSubmit}
                     />

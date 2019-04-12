@@ -71,7 +71,7 @@ export default class GroupFeedScreen extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         // TODO: fetch group feed data
     }
 
