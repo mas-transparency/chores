@@ -57,6 +57,8 @@ export default class AddNewChoreScreen extends React.Component {
                         members: group.members,
                         groupID: key
                     };
+                }).filter(group => {
+                    return group.members.includes(uid);
                 });
 
                 // const groups = Object.values(responseJson).filter(group => {

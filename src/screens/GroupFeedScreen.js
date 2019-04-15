@@ -60,6 +60,8 @@ export default class GroupFeedScreen extends Component {
                         members: group.members,
                         groupID: key
                     };
+                }).filter(group => {
+                    return group.members.includes(uid);
                 });
                 const groupSelect = groups.length > 0 ? groups[0] : '';
                 this.setState({
