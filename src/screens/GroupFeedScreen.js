@@ -77,18 +77,24 @@ export default class GroupFeedScreen extends Component {
 
     renderGroupFeeds = () => {
         // console.log(this.state.completedChores);
-        const groupFeeds = this.state.completedChores.map((chore, i) => (
-            <TouchableOpacity key={i}>
-                <ListItem
-                    title={chore.name}
-                    subtitle={chore.assigned_username}
-                    containerStyle={styles.feedCard}
-                    // titleStyle={{ color: Globals.COLOR.primaryColor }}
-                    // subtitleStyle={{ color: Globals.COLOR.primaryColor }}
-                    rightTitle={`${chore.num_chore_points} pts`}
-                />
-            </TouchableOpacity>
-        ));
+        const groupFeeds = this.state.completedChores.map((chore, i) => {
+            let date = new Date(null);
+            date.setTime(chore.modifiedTime._seconds * 1000);
+            return (
+                <TouchableOpacity key={i}>
+                    <ListItem
+                        title={chore.name}
+                        subtitle={chore.assigned_username}
+                        containerStyle={styles.feedCard}
+                        // titleStyle={{ color: Globals.COLOR.primaryColor }}
+                        // subtitleStyle={{ color: Globals.COLOR.primaryColor }}
+                        rightTitle={`${chore.num_chore_points} pts`}
+                        rightSubtitle={date.toDateString()}
+                        rightSubtitleStyle={{fontSize: 11}}
+                    />
+                </TouchableOpacity>
+            )
+        });
         return groupFeeds;
     };
 
@@ -150,6 +156,7 @@ export default class GroupFeedScreen extends Component {
                 // label="Select Group"
                 fontSize={20}
                 dropdownOffset={{ top: 0, left: 0 }}
+                textColor={Globals.COLOR.backgroundColor}
                 itemTextStyle={{ fontWeight: 'bold' }}
                 containerStyle={styles.dropdownContainer}
                 data={groups}
@@ -170,7 +177,7 @@ export default class GroupFeedScreen extends Component {
         this.setState({ groupSelect: group });
 
         // fetch all group chores and filter completed ones
-        fetch('http://3.93.95.228/group-chores', {
+        fetch('http://3.93.95.228/group-feed', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -182,6 +189,7 @@ export default class GroupFeedScreen extends Component {
                 const completedChores = Object.values(result).filter(chore => {
                     return chore.isDone;
                 });
+
                 this.setState({ completedChores });
             })
             .then(() => {
