@@ -78,7 +78,6 @@ export default class ChoresDashboard extends Component {
                 choreID: checkedChoreID
             })
         })
-            .then(res => console.log(res))
             .then(() => {
                 this._onRefresh();
             })

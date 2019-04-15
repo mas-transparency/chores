@@ -15,7 +15,7 @@ export default class ChoreBox extends Component {
     handleClick = () => {};
 
     _onPressChore = () => {
-        console.log('checking!');
+        // console.log('checking!');
         this.setState({ checked: !this.state.checked });
         this.props._onCompleteChore(this.props.choreID);
     };

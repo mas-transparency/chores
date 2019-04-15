@@ -72,7 +72,9 @@ export default class GroupFeedScreen extends Component {
     }
 
     componentDidMount() {
-        // TODO: fetch group feed data
+        // Fetch group's completed chores
+        
+
     }
 
     renderGroupFeeds = () => {

@@ -80,7 +80,7 @@ export default class AddNewChoreScreen extends React.Component {
             body: JSON.stringify({
                 name: this.state.name,
                 reward: this.state.reward,
-                num_chore_points: this.state.num_chore_points,
+                num_chore_points: parseInt(this.state.num_chore_points),
                 assigned_to: this.state.assigned_to,
                 groupID: this.state.groupID
             })
@@ -90,7 +90,7 @@ export default class AddNewChoreScreen extends React.Component {
                 this.setState({
                     name: '',
                     reward: '',
-                    num_chore_points: '',
+                    num_chore_points: '1',
                     duration: ''
                 });
             })
@@ -196,7 +196,7 @@ export default class AddNewChoreScreen extends React.Component {
                         onChangeText={num_chore_points =>
                             this.setState({ num_chore_points })
                         }
-                        keyboardType="numeric"
+                        keyboardType={"numeric"}
                     />
                     <Dropdown
                         label="Select Group"
