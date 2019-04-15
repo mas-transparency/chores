@@ -29,7 +29,9 @@ export default class JoinGroupScreen extends Component {
     }
 
     _getAllGroups = () => {
-        // get all the groups
+        // get all the groups in which I am not a member already
+        const user = firebase.auth().currentUser;
+
         fetch('http://3.93.95.228/groups', {
             method: 'GET',
             headers: {
@@ -45,7 +47,10 @@ export default class JoinGroupScreen extends Component {
                         groupName: responseJson[key].name,
                         members: responseJson[key].members
                     };
-                });
+                }).filter(group => {
+                    return !group.members.includes(user.uid);
+                })
+                console.log(groups);
                 this.setState({ groups });
             })
             .catch(error => {});
