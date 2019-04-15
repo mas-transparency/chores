@@ -5,7 +5,7 @@ import {
     Text,
     TouchableOpacity,
     RefreshControl,
-    ScrollView,
+    ScrollView
 } from 'react-native';
 import { Divider, Button } from 'react-native-elements';
 import firebase from 'firebase';
@@ -159,28 +159,30 @@ export default class MyChoresScreen extends React.Component {
                     </Text>
                 </View>
                 <View style={styles.chores}>
-                <View style={styles.choreContainer}>
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.state.refreshing}
-                            onRefresh={this._onRefresh}
+                    <View style={styles.choreContainer}>
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={this.state.refreshing}
+                                    onRefresh={this._onRefresh}
+                                />
+                            }
+                        >
+                            {this.renderChores()}
+                        </ScrollView>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            title="Add New"
+                            containerStyle={styles.buttonContainerStyle}
+                            buttonStyle={styles.buttonStyle}
+                            onPress={() =>
+                                this.props.navigation.navigate('Add New', {
+                                    _onRefresh: this._onRefresh
+                                })
+                            }
                         />
-                    }
-                >
-                    {this.renderChores()}
-                </ScrollView>
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button
-                    title="Add New"
-                    containerStyle={styles.buttonContainerStyle}
-                    buttonStyle={styles.buttonStyle}
-                    onPress={() => this.props.navigation.navigate('Add\ New', {
-                        _onRefresh: this._onRefresh
-                    })}
-                />
-            </View>
+                    </View>
                 </View>
             </View>
         );
@@ -211,10 +213,10 @@ const styles = StyleSheet.create({
         // backgroundColor: 'blue'
     },
     choreContainer: {
-        flex: 4,
+        flex: 4
     },
     buttonContainer: {
-        flex: 1,
+        flex: 1
     },
     buttonContainerStyle: {
         paddingLeft: 100,
@@ -231,5 +233,4 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: Globals.FONTSIZE.medium
     }
-
 });
