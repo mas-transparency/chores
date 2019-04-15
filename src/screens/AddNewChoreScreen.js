@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, TextInput, Picker } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
+import { Alert } from "react-native";
 
 import firebase from 'firebase';
 
@@ -69,45 +70,163 @@ export default class AddNewChoreScreen extends React.Component {
             });
     };
 
+
     handleSubmit = () => {
         const user = firebase.auth().currentUser;
 
+        // first validate the forms
+        if (this.state.name == '') {
+            Alert.alert(
+              'Invalid input',"Please enter a name for the chore",[
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+          return
+        }
+        if (this.state.groupID == '') {
+            Alert.alert(
+              'Invalid input',"Please select a group for this chore",[
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+          return
+        }
+        if (this.state.assigned_to == '') {
+            Alert.alert(
+              'Invalid input',"Please select a Person on Duty for this chore",[
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+          return
+        }
         fetch('http://3.93.95.228/chores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    reward: this.state.reward,
+                    num_chore_points: parseInt(this.state.num_chore_points),
+                    assigned_to: this.state.assigned_to,
+                    groupID: this.state.groupID
+                })
+        }).then(response => {
+            console.log(response);
+            this.setState({
+                name: '',
+                reward: '',
+                num_chore_points: '1',
+            });
+        }).then(() => {
+            const { state, setParams, navigate } = this.props.navigation;
+            const params = state.params || {};
+            const _onRefresh = params._onRefresh;
+            if (_onRefresh) {
+                // FIXME: figure out other alternative
+                _onRefresh();
+            }
+            this.props.navigation.navigate('My\ Chores')
+
+        }).catch(error => {
+            console.log(error);
+        });
+    };
+
+    handleChoreRoulette = () => {
+        // first validate the forms
+        if (this.state.name == '') {
+            Alert.alert(
+              'Invalid input',"Please enter a name for the chore",[
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+          return
+        }
+        if (this.state.groupID == '') {
+            Alert.alert(
+              'Invalid input',"Please select a group for this chore",[
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+          return
+        }
+
+        const user = firebase.auth().currentUser;
+        var selectedDisplayName;
+        // first, obtain a user from the roulette endpoint
+        fetch('http://3.93.95.228/roulette', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: this.state.name,
-                reward: this.state.reward,
-                num_chore_points: parseInt(this.state.num_chore_points),
-                assigned_to: this.state.assigned_to,
                 groupID: this.state.groupID
             })
-        })
-            .then(response => {
-                console.log(response);
-                this.setState({
-                    name: '',
-                    reward: '',
-                    num_chore_points: '1',
-                    duration: ''
-                });
+        }).then(response => response.json())
+        .then(response => {
+            this.state.assigned_to = response.uid;
+            // Now we retrieve the displayName of the selectedUser for our
+            // modal
+            return fetch('http://3.93.95.228/profile', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'uid': this.state.assigned_to
+                })
             })
-            .then(() => {
-                const { state, setParams, navigate } = this.props.navigation;
-                const params = state.params || {};
-                const _onRefresh = params._onRefresh;
-                if (_onRefresh) {
-                    // FIXME: figure out other alternative
-                    _onRefresh();
-                }
-                this.props.navigation.navigate('My\ Chores')
-
+        }).then(response => response.json())
+        .then(response => {
+                selectedDisplayName = response.displayName;
+        }).then(_ => {
+            return fetch('http://3.93.95.228/chores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: this.state.name,
+                    reward: this.state.reward,
+                    num_chore_points: parseInt(this.state.num_chore_points),
+                    assigned_to: this.state.assigned_to,
+                    groupID: this.state.groupID
+                })
             })
-            .catch(error => {
-                console.error(error);
+        }).then(response => {
+            this.setState({
+                name: '',
+                reward: '',
+                num_chore_points: '1',
+                duration: ''
             });
+        }).then(() => {
+            const { state, setParams, navigate } = this.props.navigation;
+            const params = state.params || {};
+            const _onRefresh = params._onRefresh;
+            if (_onRefresh) {
+                // FIXME: figure out other alternative
+                _onRefresh();
+            }
+            this.props.navigation.navigate('My\ Chores')
+            // show alert
+            Alert.alert(
+              'User Chosen!',
+              selectedDisplayName + ' has been chosen for the new chore.',
+              [
+                {text: 'OK'},
+              ],
+              {cancelable: false},
+          )
+        }).catch(error => {
+            console.error(error);
+        });
     };
 
     handleUserSelect = username => {
@@ -218,6 +337,13 @@ export default class AddNewChoreScreen extends React.Component {
                         size={40}
                         onPress={this.handleSubmit}
                     />
+                    <Button
+                        style={styles.button}
+                        buttonStyle={styles.rouletteStyle}
+                        title="Chore Roulette!"
+                        size={40}
+                        onPress={this.handleChoreRoulette}
+                    />
                 </View>
             </View>
         );
@@ -261,5 +387,8 @@ const styles = StyleSheet.create({
     },
     buttonStyle: {
         backgroundColor: Globals.COLOR.primaryColor
+    },
+    rouletteStyle: {
+        backgroundColor: Globals.COLOR.thirdColor
     }
 });
