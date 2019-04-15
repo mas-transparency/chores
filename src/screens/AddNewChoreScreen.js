@@ -58,6 +58,8 @@ export default class AddNewChoreScreen extends React.Component {
                         members: group.members,
                         groupID: key
                     };
+                }).filter(group => {
+                    return group.members.includes(uid);
                 });
 
                 // const groups = Object.values(responseJson).filter(group => {
@@ -333,7 +335,7 @@ export default class AddNewChoreScreen extends React.Component {
                     <Button
                         style={styles.button}
                         buttonStyle={styles.buttonStyle}
-                        title="Add"
+                        title="Add New"
                         size={40}
                         onPress={this.handleSubmit}
                     />
