@@ -4,7 +4,8 @@ import {
     Text,
     View,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    RefreshControl
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { Bar } from 'react-native-progress';
@@ -18,61 +19,11 @@ export default class GroupFeedScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // FIXME: dummy data for now -- change later
-            groupName: '2019 Crecine roommates',
+            refreshing: false,
             completedChores: [],
-            members: [
-                {
-                    name: 'Jessica Pan',
-                    chore: 'Clean it!',
-                    points: 100,
-                    likes: 100
-                },
-                {
-                    name: 'MJ Park',
-                    chore: 'get the trash out',
-                    points: 200,
-                    likes: 30
-                },
-                {
-                    name: 'Kevin',
-                    chore: 'buy grocery',
-                    points: 10,
-                    likes: 0
-                },
-                {
-                    name: 'Michael',
-                    chore: 'clean the room',
-                    points: 100,
-                    likes: 100
-                },
-                {
-                    name: 'MJ Park',
-                    chore: 'get milk',
-                    points: 100,
-                    likes: 100
-                }
-            ],
-            feed: [
-                {
-                    name: 'Jessica',
-                    totalPoints: 24
-                },
-                {
-                    name: 'MJ Park',
-                    totalPoints: 29
-                },
-                {
-                    name: 'Kevin',
-                    totalPoints: 19
-                },
-                {
-                    name: 'Michael',
-                    totalPoints: 30
-                }
-            ],
+            members: [],
             groups: [],
-            groupSelect: '' // selected group object
+            groupSelect: {} // selected group object
         };
     }
 
@@ -80,6 +31,11 @@ export default class GroupFeedScreen extends Component {
         // Fetch group's completed chores
         this._getMyGroups();
     }
+
+    _onRefresh = () => {
+        this.setState({ refreshing: true });
+        this._updateGroupFeed(this.state.groupSelect.groupName);
+    };
 
     _getMyGroups = () => {
         const user = firebase.auth().currentUser;
@@ -110,9 +66,8 @@ export default class GroupFeedScreen extends Component {
                     groups,
                     groupSelect
                 });
-                this.handleGroupSelect(groupSelect.groupName);
+                this._updateGroupFeed(groupSelect.groupName);
             })
-            .then(() => {})
             .catch(error => {
                 console.error(error);
             });
@@ -136,29 +91,29 @@ export default class GroupFeedScreen extends Component {
     };
 
     _renderMemberStats = () => {
-        var feed = this.state.feed;
+        var members = this.state.members;
         var maxMemberPoints = 0;
-        feed.sort(function(a, b) {
-            return b.totalPoints - a.totalPoints;
+        members.sort(function(a, b) {
+            return b.total_chore_points - a.total_chore_points;
         });
 
-        for (var i = 0; i < feed.length; i++) {
-            memberPoints = feed[i].totalPoints;
+        for (var i = 0; i < members.length; i++) {
+            memberPoints = members[i].total_chore_points;
             if (memberPoints > maxMemberPoints) {
                 maxMemberPoints = memberPoints;
             }
         }
-
-        const displayMemberStats = feed.map((memberInfo, i) => {
-            var progress = memberInfo.totalPoints / maxMemberPoints;
+        // console.log(members);
+        const displayMemberStats = members.map((memberInfo, i) => {
+            var progress = memberInfo.total_chore_points / maxMemberPoints;
             // TODO: isCurUser is not hardcoded
-            var isCurUser = memberInfo.name == 'Jessica';
+            var isCurUser = memberInfo.displayName == 'Jessica';
             return (
-                <View key={memberInfo.name} style={styles.memberStatsContainer}>
+                <View key={memberInfo.uid} style={styles.memberStatsContainer}>
                     <Text
                         style={isCurUser ? styles.curUser : styles.memberName}
                     >
-                        {isCurUser ? 'You' : memberInfo.name}
+                        {isCurUser ? 'You' : memberInfo.displayName}
                     </Text>
                     <View style={styles.progressBarContainer}>
                         <Bar
@@ -171,11 +126,9 @@ export default class GroupFeedScreen extends Component {
                             unfilledColor="#dedede"
                         />
                         <Text
-                            style={
-                                isCurUser ? styles.curUser : styles.progressText
-                            }
+                            style={isCurUser ? styles.curUser : styles.progress}
                         >
-                            {memberInfo.totalPoints} points
+                            {memberInfo.total_chore_points} points
                         </Text>
                     </View>
                 </View>
@@ -198,14 +151,13 @@ export default class GroupFeedScreen extends Component {
                 itemTextStyle={{ fontWeight: 'bold' }}
                 containerStyle={styles.dropdownContainer}
                 data={groups}
-                onChangeText={value => this.handleGroupSelect(value)}
+                onChangeText={value => this._updateGroupFeed(value)}
                 value={groups.length > 0 ? groups[0].value : ''}
             />
         );
     };
 
-    handleGroupSelect = groupName => {
-        console.log();
+    _updateGroupFeed = groupName => {
         let group = this.state.groups.filter(group => {
             return group.groupName == groupName;
         });
@@ -213,6 +165,7 @@ export default class GroupFeedScreen extends Component {
             return;
         }
         group = group[0]; // group contains groupID, groupName, and members
+        this.setState({ groupSelect: group });
 
         // fetch all group chores and filter completed ones
         fetch('http://3.93.95.228/group-chores', {
@@ -228,22 +181,23 @@ export default class GroupFeedScreen extends Component {
                     return chore.isDone;
                 });
                 this.setState({ completedChores });
-                console.log(completedChores);
             })
             .then(() => {
-
-                // update chore with actual username 
-                let userFetches = this.state.completedChores.map(chore => {
+                // update chore with actual username
+                let userFetches = group.members.map(uid => {
                     return fetch('http://3.93.95.228/profile', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ uid: chore.assigned_to })
+                        body: JSON.stringify({ uid })
                     }).then(res => res.json());
                 });
-                
+
                 Promise.all(userFetches).then(response => {
+                    // update members
+                    this.setState({ members: response });
+
                     const updatedCompletedChores = [];
                     for (const chore of this.state.completedChores) {
                         for (const res of response) {
@@ -259,8 +213,10 @@ export default class GroupFeedScreen extends Component {
                             }
                         }
                     }
-                    // console.log(updatedCompletedChores);
-                    this.setState({ completedChores: updatedCompletedChores });
+                    this.setState({
+                        completedChores: updatedCompletedChores,
+                        refreshing: false
+                    });
                 });
             })
             .catch(error => {
@@ -270,31 +226,49 @@ export default class GroupFeedScreen extends Component {
 
     render() {
         return (
-            <ScrollView style={styles.container}>
+            <View style={styles.container}>
                 <View style={styles.headerContainer}>
                     {this._renderGroupSelect()}
                 </View>
-                <Text style={styles.subheaderText}>Overview</Text>
-                {this._renderMemberStats()}
-                <View style={styles.cardsContainer}>
+                <ScrollView
+                    style={styles.feedContainer}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh}
+                        />
+                    }
+                >
                     <View style={styles.headerContainer}>
-                        <Text style={styles.headerText}>Recent Activity</Text>
+                        <Text style={styles.headerText}>Overview</Text>
                     </View>
-                    {this.renderGroupFeeds()}
-                </View>
-            </ScrollView>
+                    {this._renderMemberStats()}
+                    <View style={styles.cardsContainer}>
+                        <View style={styles.headerContainer}>
+                            <Text style={styles.headerText}>
+                                Recent Activity
+                            </Text>
+                        </View>
+                        {this.renderGroupFeeds()}
+                    </View>
+                </ScrollView>
+            </View>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    headerContainer: {
         flex: 1,
         justifyContent: 'center',
-        marginVertical: 20,
-        paddingLeft: 20
+        alignItems: 'center'
+    },
+    headerContainer: {
+        justifyContent: 'center',
+        marginVertical: 5
+        // paddingLeft: 20
+    },
+    feedContainer: {
+        flex: 8
     },
     dropdownContainer: {
         width: 300
@@ -336,10 +310,10 @@ const styles = StyleSheet.create({
     },
     cardsContainer: {
         marginTop: 15,
-        flex: 10,
+        flex: 10
         // alignContent: 'space-between',
-        borderWidth: 0.5,
-        borderColor: '#adadad'
+        // borderWidth: 0.5,
+        // borderColor: '#adadad'
     },
     feedCard: {
         backgroundColor: Globals.COLOR.secondaryColor,
