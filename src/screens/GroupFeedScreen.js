@@ -53,16 +53,18 @@ export default class GroupFeedScreen extends Component {
                 // only includes the groups that the user is in
                 // groups = [ { groupName, groupID, members } ]
 
-                const groups = Object.keys(responseJson).map(key => {
-                    const group = responseJson[key];
-                    return {
-                        groupName: group.name,
-                        members: group.members,
-                        groupID: key
-                    };
-                }).filter(group => {
-                    return group.members.includes(uid);
-                });
+                const groups = Object.keys(responseJson)
+                    .map(key => {
+                        const group = responseJson[key];
+                        return {
+                            groupName: group.name,
+                            members: group.members,
+                            groupID: key
+                        };
+                    })
+                    .filter(group => {
+                        return group.members.includes(uid);
+                    });
                 const groupSelect = groups.length > 0 ? groups[0] : '';
                 this.setState({
                     groups,
@@ -90,10 +92,10 @@ export default class GroupFeedScreen extends Component {
                         // subtitleStyle={{ color: Globals.COLOR.primaryColor }}
                         rightTitle={`${chore.num_chore_points} pts`}
                         rightSubtitle={date.toDateString()}
-                        rightSubtitleStyle={{fontSize: 11}}
+                        rightSubtitleStyle={{ fontSize: 11 }}
                     />
                 </TouchableOpacity>
-            )
+            );
         });
         return groupFeeds;
     };
