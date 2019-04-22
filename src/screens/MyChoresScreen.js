@@ -150,15 +150,15 @@ export default class MyChoresScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.points}>
-                    <Text style={styles.dashboardText}>
-                        {this.state.username}'s Chore Points
-                    </Text>
-                    <Text style={styles.dashboardNumber}>
-                        {this.state.total_chore_points}
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerText}>My Total Points:
+                        <Text style={styles.dashboardNumber}> {this.state.total_chore_points}</Text>
                     </Text>
                 </View>
                 <View style={styles.chores}>
+                    <View style={styles.headerContainer}>
+                        <Text style={styles.headerText}>My Tasks</Text>
+                    </View>
                     <View style={styles.choreContainer}>
                         <ScrollView
                             refreshControl={
@@ -191,26 +191,23 @@ export default class MyChoresScreen extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-        // alignItems: 'center',
-        // justifyContent: 'center'
-    },
-    points: {
         flex: 1,
-        justifyContent: 'space-evenly',
-        alignItems: 'center'
     },
-    dashboardText: {
-        // color: Globals.COLOR.secondaryColor,
-        fontSize: Globals.FONTSIZE.large
+    headerContainer: {
+        margin: 15,
+        justifyContent: 'space-around',
+    },
+    headerText: {
+        fontWeight: 'bold',
+        fontSize: Globals.FONTSIZE.medium
     },
     dashboardNumber: {
+        margin: 15,
         color: Globals.COLOR.primaryColor,
-        fontSize: Globals.FONTSIZE.extraLarge
+        fontSize: Globals.FONTSIZE.large,
     },
     chores: {
         flex: 3
-        // backgroundColor: 'blue'
     },
     choreContainer: {
         flex: 4

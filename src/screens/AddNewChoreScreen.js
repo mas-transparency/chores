@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, TextInput, Picker } from 'react-native';
-import { Input, Button } from 'react-native-elements';
+import { Input, Button, ListItem } from 'react-native-elements';
 import { Dropdown } from 'react-native-material-dropdown';
 import { Alert } from "react-native";
 
@@ -338,6 +338,7 @@ export default class AddNewChoreScreen extends React.Component {
                         title="Add New"
                         size={40}
                         onPress={this.handleSubmit}
+                        width={100}
                     />
                     <Button
                         style={styles.button}
@@ -368,15 +369,31 @@ const styles = StyleSheet.create({
         fontSize: Globals.FONTSIZE.large
     },
     formContainer: {
-        flex: 7,
+        flex: 6,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-evenly',
         paddingLeft: 20,
         paddingRight: 20
     },
+    formContainer2: {
+        flex: 1,
+        marginBottom: 5,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        paddingLeft: 20,
+        paddingRight: 20,
+    },
     dropdownContainer: {
         width: 300
+    },
+    addButton: {
+        width: '100%',
+        borderRadius: 0,
+        borderWidth: 0.5,
+        borderColor: '#000',
+        borderTopColor: '#fff'
     },
     button: {
         minWidth: 150,
@@ -388,9 +405,14 @@ const styles = StyleSheet.create({
         maxHeight: 50
     },
     buttonStyle: {
-        backgroundColor: Globals.COLOR.primaryColor
+        backgroundColor: Globals.COLOR.primaryColor,
+        width: 300,
     },
     rouletteStyle: {
-        backgroundColor: Globals.COLOR.thirdColor
+        backgroundColor: Globals.COLOR.thirdColor,
+        width: 300,
+    },
+    marginInput: {
+        margin: 10,
     }
 });

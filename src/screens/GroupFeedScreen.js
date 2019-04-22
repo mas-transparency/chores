@@ -133,10 +133,7 @@ export default class GroupFeedScreen extends Component {
                             color="#07cdff"
                             unfilledColor="#dedede"
                         />
-                        <Text
-                            style={isCurUser ? styles.curUser : styles.progress}
-                        >
-                            {memberInfo.total_chore_points} points
+                        <Text style={isCurUser ? styles.curUser : styles.progress}>  {memberInfo.total_chore_points} points
                         </Text>
                     </View>
                 </View>
@@ -153,8 +150,7 @@ export default class GroupFeedScreen extends Component {
             : {};
         return (
             <Dropdown
-                // label="Select Group"
-                fontSize={20}
+                fontSize={Globals.FONTSIZE.medium}
                 dropdownOffset={{ top: 0, left: 0 }}
                 textColor={Globals.COLOR.backgroundColor}
                 itemTextStyle={{ fontWeight: 'bold' }}
@@ -162,6 +158,7 @@ export default class GroupFeedScreen extends Component {
                 data={groups}
                 onChangeText={value => this._updateGroupFeed(value)}
                 value={groups.length > 0 ? groups[0].value : ''}
+                fontWeight="bold"
             />
         );
     };
@@ -274,7 +271,8 @@ const styles = StyleSheet.create({
     },
     headerContainer: {
         justifyContent: 'center',
-        marginVertical: 5
+        marginBottom: 5,
+        marginTop: 15,
         // paddingLeft: 20
     },
     feedContainer: {
@@ -284,12 +282,6 @@ const styles = StyleSheet.create({
         width: 300
     },
     headerText: {
-        fontWeight: 'bold',
-        fontSize: Globals.FONTSIZE.medium
-    },
-    subheaderText: {
-        marginHorizontal: 20,
-        marginBottom: 10,
         fontWeight: 'bold',
         fontSize: Globals.FONTSIZE.medium
     },
